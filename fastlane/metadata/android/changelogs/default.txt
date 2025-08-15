@@ -1,0 +1,5 @@
+* Initial release of Passgen
+* Generate secure passwords using random words
+* Customize password parameters
+* Copy to clipboard functionality
+* Secure storage of user preferences

@@ -1,0 +1,19 @@
+Passgen is a secure password generator that creates strong, memorable passwords using a word-based approach.
+
+Features:
+- Generates strong passwords using random words from a built-in dictionary
+- Customizable password parameters:
+  - Number of words (1-10)
+  - Capitalization of words
+  - Custom separators
+  - Option to append numbers
+  - Option to append symbols
+- Secure storage of user preferences
+- Copy to clipboard functionality
+- Clean, intuitive user interface
+- No internet required - works offline
+- No ads or tracking
+
+The app uses a cryptographically secure random number generator to ensure the passwords it creates are truly random and secure. The word list is verified for integrity on each launch to ensure it hasn't been tampered with.
+
+Passgen is particularly useful for people who want strong passwords that are also somewhat memorable, as opposed to completely random strings of characters.

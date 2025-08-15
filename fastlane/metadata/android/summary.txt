@@ -1,0 +1,1 @@
+Passgen is a secure password generator that creates strong, memorable passwords using a word-based approach. It allows users to customize the password generation parameters such as the number of words, capitalization, separators, and appending numbers or symbols.
