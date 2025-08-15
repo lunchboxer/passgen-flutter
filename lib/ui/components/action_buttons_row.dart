@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ActionButtonsRow extends StatelessWidget {
-  final VoidCallback onRegenerate;
-  final VoidCallback onSettings;
-
+  /// Creates an ActionButtonsRow widget.
   const ActionButtonsRow({
     super.key,
     required this.onRegenerate,
     required this.onSettings,
   });
+
+  final VoidCallback onRegenerate;
+  final VoidCallback onSettings;
 
   @override
   Widget build(BuildContext context) {

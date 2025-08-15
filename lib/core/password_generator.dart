@@ -1,4 +1,6 @@
 import 'dart:math';
+
+// Use relative imports for files in the 'lib' directory
 import 'package:passgen/core/password_generator_interface.dart';
 import 'package:passgen/core/word_repository_interface.dart';
 import 'package:passgen/models/password_params.dart';
@@ -7,15 +9,24 @@ import 'package:passgen/models/password_params.dart';
 ///
 /// This class implements the [IPasswordGenerator] interface and uses a word repository
 /// to generate passwords using a word-based approach. It supports various customization
-/// options such as word count, capitalization, separators, and appending numbers or symbols.
+/// options such as word count, capitalization, separators, and appending numbers or
+/// symbols.
 class PasswordGeneratorService implements IPasswordGenerator {
+  /// Creates a new PasswordGeneratorService with the specified word repository.
+  PasswordGeneratorService(this._wordRepository);
+
   final IWordRepository _wordRepository;
 
   /// Common symbols for appending to passwords.
-  static const List<String> _symbols = ['!', '@', '#', '\$', '%', '&', '*'];
-
-  /// Creates a new PasswordGeneratorService with the specified word repository.
-  PasswordGeneratorService(this._wordRepository);
+  static const List<String> _symbols = [
+    '!',
+    '@',
+    '#',
+    r'$',
+    '%',
+    '&',
+    '*',
+  ];
 
   @override
   String generate(PasswordParams params) {
@@ -34,7 +45,7 @@ class PasswordGeneratorService implements IPasswordGenerator {
       if (params.appendSymbol) totalExtraChars += 1; // One symbol
 
       // Subtract separators (wordCount - 1) and extra chars, then divide by wordCount
-      int availableChars =
+      final availableChars =
           params.lengthConstraint! - (params.wordCount - 1) - totalExtraChars;
 
       if (availableChars > 0) {
@@ -48,10 +59,8 @@ class PasswordGeneratorService implements IPasswordGenerator {
       String word = _wordRepository.getRandomWord(maxLength: maxWordLength);
 
       // Apply capitalization if requested
-      if (params.capitalize) {
-        if (word.isNotEmpty) {
-          word = word[0].toUpperCase() + word.substring(1);
-        }
+      if (params.capitalize && word.isNotEmpty) {
+        word = word[0].toUpperCase() + word.substring(1);
       }
 
       words.add(word);

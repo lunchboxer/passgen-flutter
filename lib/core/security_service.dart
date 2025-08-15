@@ -1,14 +1,18 @@
+// Use relative imports for files in the 'lib' directory
 import 'package:passgen/core/debug_mode_checker.dart';
 import 'package:passgen/core/logger.dart';
 
+/// A utility class for handling security-related functionality.
+///
+/// This class provides methods to check if certain security features
+/// should be enabled based on the current mode of the application.
 class SecurityService {
   /// Checks if clipboard monitoring is allowed
   /// In debug mode, we might want to disable certain security features for testing
   static bool isClipboardMonitoringAllowed() {
     // In release mode, clipboard monitoring is always allowed
     // In debug mode, it's controlled by a flag for testing purposes
-    final isAllowed =
-        DebugModeChecker.isReleaseMode ||
+    final isAllowed = DebugModeChecker.isReleaseMode ||
         DebugModeChecker.isFeatureEnabledInDebugMode(true);
 
     if (!isAllowed) {
@@ -23,8 +27,7 @@ class SecurityService {
   static bool shouldEnableScreenRecordingProtection() {
     // In release mode, screen recording protection is always enabled
     // In debug mode, it's controlled by a flag for testing purposes
-    final isEnabled =
-        DebugModeChecker.isReleaseMode ||
+    final isEnabled = DebugModeChecker.isReleaseMode ||
         DebugModeChecker.isFeatureEnabledInDebugMode(true);
 
     if (!isEnabled) {

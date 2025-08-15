@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:passgen/core/password_generator.dart';
-import 'package:passgen/core/word_repository_interface.dart';
-import 'package:passgen/models/password_params.dart';
+import '../../lib/core/password_generator.dart';
+import '../../lib/core/word_repository_interface.dart';
+import '../../lib/models/password_params.dart';
 
 // Mock implementation of IWordRepository for testing
 class MockWordRepository implements IWordRepository {

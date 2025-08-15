@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:passgen/models/password_params.dart';
+import '../../lib/models/password_params.dart';
 
 void main() {
   group('PasswordParams', () {

@@ -4,6 +4,18 @@
 /// such as the number of words, capitalization, separator character, and
 /// whether to append numbers or symbols.
 class PasswordParams {
+  /// Creates a new PasswordParams with the specified values.
+  ///
+  /// If no values are provided, the default values are used.
+  PasswordParams({
+    this.wordCount = 3,
+    this.capitalize = true,
+    this.separator = '-',
+    this.appendNumber = false,
+    this.appendSymbol = false,
+    this.lengthConstraint,
+  });
+
   /// The number of words to include in the password.
   ///
   /// Must be between 1 and 10. Defaults to 3.
@@ -35,18 +47,6 @@ class PasswordParams {
   /// Must be at least 4 times the word count (assuming minimum word length of 4).
   final int? lengthConstraint;
 
-  /// Creates a new PasswordParams with the specified values.
-  ///
-  /// If no values are provided, the default values are used.
-  PasswordParams({
-    this.wordCount = 3,
-    this.capitalize = true,
-    this.separator = '-',
-    this.appendNumber = false,
-    this.appendSymbol = false,
-    this.lengthConstraint,
-  });
-
   /// Creates a new PasswordParams with updated values.
   ///
   /// Any parameters that are not provided will retain their current values.
@@ -57,16 +57,15 @@ class PasswordParams {
     bool? appendNumber,
     bool? appendSymbol,
     int? lengthConstraint,
-  }) {
-    return PasswordParams(
-      wordCount: wordCount ?? this.wordCount,
-      capitalize: capitalize ?? this.capitalize,
-      separator: separator ?? this.separator,
-      appendNumber: appendNumber ?? this.appendNumber,
-      appendSymbol: appendSymbol ?? this.appendSymbol,
-      lengthConstraint: lengthConstraint ?? this.lengthConstraint,
-    );
-  }
+  }) =>
+      PasswordParams(
+        wordCount: wordCount ?? this.wordCount,
+        capitalize: capitalize ?? this.capitalize,
+        separator: separator ?? this.separator,
+        appendNumber: appendNumber ?? this.appendNumber,
+        appendSymbol: appendSymbol ?? this.appendSymbol,
+        lengthConstraint: lengthConstraint ?? this.lengthConstraint,
+      );
 
   /// Validates the parameters.
   ///
@@ -75,6 +74,7 @@ class PasswordParams {
   /// - Word count must be between 1 and 10
   /// - Separator must be a single character
   /// - If length constraint is specified, it must be at least 4 times the word count
+  ///   (assuming minimum word length of 4 characters)
   bool validate() {
     // Word count must be between 1 and 10
     if (wordCount < 1 || wordCount > 10) {
@@ -96,34 +96,32 @@ class PasswordParams {
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other.runtimeType != runtimeType) return false;
-    return other is PasswordParams &&
-        other.wordCount == wordCount &&
-        other.capitalize == capitalize &&
-        other.separator == separator &&
-        other.appendNumber == appendNumber &&
-        other.appendSymbol == appendSymbol &&
-        other.lengthConstraint == lengthConstraint;
-  }
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PasswordParams &&
+          runtimeType == other.runtimeType &&
+          other.wordCount == wordCount &&
+          other.capitalize == capitalize &&
+          other.separator == separator &&
+          other.appendNumber == appendNumber &&
+          other.appendSymbol == appendSymbol &&
+          other.lengthConstraint == lengthConstraint;
 
   @override
-  int get hashCode {
-    return Object.hash(
-      wordCount,
-      capitalize,
-      separator,
-      appendNumber,
-      appendSymbol,
-      lengthConstraint,
-    );
-  }
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => Object.hash(
+        wordCount,
+        capitalize,
+        separator,
+        appendNumber,
+        appendSymbol,
+        lengthConstraint,
+      );
 
   @override
-  String toString() {
-    return 'PasswordParams(wordCount: $wordCount, capitalize: $capitalize, '
-        'separator: $separator, appendNumber: $appendNumber, '
-        'appendSymbol: $appendSymbol, lengthConstraint: $lengthConstraint)';
-  }
+  String toString() =>
+      'PasswordParams(wordCount: $wordCount, capitalize: $capitalize, '
+      'separator: $separator, appendNumber: $appendNumber, '
+      'appendSymbol: $appendSymbol, lengthConstraint: $lengthConstraint)';
 }

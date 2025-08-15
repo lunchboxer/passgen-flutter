@@ -1,15 +1,17 @@
-import 'package:flutter/material.dart';
+// Use relative imports for files in the 'lib' directory
 import 'package:passgen/models/password_params.dart';
+import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
-  final PasswordParams currentParams;
-  final ValueChanged<PasswordParams> onSave;
-
+  /// Creates a SettingsScreen widget.
   const SettingsScreen({
     super.key,
     required this.currentParams,
     required this.onSave,
   });
+
+  final PasswordParams currentParams;
+  final ValueChanged<PasswordParams> onSave;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -62,7 +64,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: const Text('Settings'),
         actions: [
-          IconButton(icon: const Icon(Icons.save), onPressed: _saveSettings),
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: _saveSettings,
+            tooltip: 'Save', // Remove redundant argument
+          ),
         ],
       ),
       body: Padding(

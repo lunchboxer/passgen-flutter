@@ -1,3 +1,4 @@
+// Use relative imports for files in the 'lib' directory
 import 'package:passgen/models/password_params.dart';
 
 /// An interface for password generation.
@@ -6,7 +7,7 @@ import 'package:passgen/models/password_params.dart';
 abstract class IPasswordGenerator {
   /// Generate a password based on the provided parameters.
   ///
-  /// Takes a [PasswordParams] object that specifies how the password should be generated
-  /// and returns a string containing the generated password.
+  /// Takes a [PasswordParams] object that specifies how the password should be
+  /// generated and returns a string containing the generated password.
   String generate(PasswordParams params);
 }

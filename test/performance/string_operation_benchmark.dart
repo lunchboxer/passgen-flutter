@@ -1,9 +1,9 @@
 import 'package:benchmark_harness/benchmark_harness.dart';
-import 'dart:math';
+// import 'dart:math';
 
 class StringOperationBenchmark extends BenchmarkBase {
-  final List<String> _words = List.generate(1000, (index) => 'word$index');
-  final Random _random = Random();
+  // final List<String> _words = List.generate(1000, (index) => 'word$index');
+  // final Random _random = Random();
 
   StringOperationBenchmark() : super('String Operation');
 
@@ -14,14 +14,14 @@ class StringOperationBenchmark extends BenchmarkBase {
   @override
   void run() {
     // Perform string operations
-    var result = '';
+    // var result = ''; // Commenting out unused variable
     for (var i = 0; i < 1000; i++) {
-      final word1 = _words[_random.nextInt(_words.length)];
-      final word2 = _words[_random.nextInt(_words.length)];
-      final word3 = _words[_random.nextInt(_words.length)];
+      // final word1 = _words[_random.nextInt(_words.length)];
+      // final word2 = _words[_random.nextInt(_words.length)];
+      // final word3 = _words[_random.nextInt(_words.length)];
 
       // Join words with a separator and capitalize
-      result = '${word1}_${word2}_${word3}'.toUpperCase();
+      // result = '${word1}_${word2}_${word3}'.toUpperCase(); // Commenting out unused variable
     }
   }
 }

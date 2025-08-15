@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class PasswordDisplayWidget extends StatefulWidget {
-  final String password;
-  final VoidCallback onCopy;
-
+  /// Creates a PasswordDisplayWidget widget.
   const PasswordDisplayWidget({
     super.key,
     required this.password,
     required this.onCopy,
   });
+
+  final String password;
+  final VoidCallback onCopy;
 
   @override
   State<PasswordDisplayWidget> createState() => _PasswordDisplayWidgetState();

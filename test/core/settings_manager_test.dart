@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:passgen/core/settings_manager.dart';
-import 'package:passgen/models/password_params.dart';
+import '../../lib/core/settings_manager.dart';
+import '../../lib/models/password_params.dart';
 
 void main() {
   group('SettingsManager', () {

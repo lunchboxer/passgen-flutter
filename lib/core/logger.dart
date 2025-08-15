@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
+// Use relative imports for files in the 'lib' directory
 import 'package:passgen/core/security_service.dart';
 
+/// A utility class for logging messages.
+///
+/// This class provides methods to log messages at different levels.
 class Logger {
   static const bool _isDebugMode = kDebugMode;
 

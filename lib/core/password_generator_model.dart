@@ -1,9 +1,11 @@
+// Sort directives and use relative imports
 import 'package:flutter/foundation.dart';
-import 'package:passgen/core/word_repository.dart';
+import 'package:passgen/core/logger.dart';
 import 'package:passgen/core/password_generator.dart';
 import 'package:passgen/core/settings_manager.dart';
+import 'package:passgen/core/word_repository.dart';
+import 'package:passgen/core/word_repository_interface.dart';
 import 'package:passgen/models/password_params.dart';
-import 'package:passgen/core/logger.dart';
 
 /// A model class that manages the state of the password generator.
 ///
@@ -14,7 +16,14 @@ import 'package:passgen/core/logger.dart';
 /// - Generating passwords
 /// - Saving and loading settings
 class PasswordGeneratorModel extends ChangeNotifier {
-  late WordRepository _wordRepository;
+  /// Creates a PasswordGeneratorModel with an optional word repository.
+  ///
+  /// If no word repository is provided, a default WordRepository will be used.
+  PasswordGeneratorModel({IWordRepository? wordRepository}) {
+    _wordRepository = wordRepository ?? WordRepository();
+  }
+
+  late IWordRepository _wordRepository;
   late PasswordGeneratorService _passwordGenerator;
   late SettingsManager _settingsManager;
 
@@ -43,7 +52,6 @@ class PasswordGeneratorModel extends ChangeNotifier {
     Logger.info('Initializing PasswordGeneratorModel');
 
     // Initialize word repository
-    _wordRepository = WordRepository();
     await _wordRepository.initialize();
     Logger.debug('Word repository initialized');
 
@@ -62,6 +70,18 @@ class PasswordGeneratorModel extends ChangeNotifier {
 
     _isInitialized = true;
     notifyListeners();
+  }
+
+  /// A method for testing that sets up the model with test data.
+  void setupForTesting(String password, PasswordParams params) {
+    // Initialize the required fields for testing
+    _currentPassword = password;
+    _currentParams = params;
+    _isInitialized = true;
+
+    // Create mock services for testing
+    _passwordGenerator = PasswordGeneratorService(_wordRepository);
+    _settingsManager = SettingsManager();
   }
 
   /// Generate a new password using the current parameters.
@@ -84,9 +104,7 @@ class PasswordGeneratorModel extends ChangeNotifier {
   ///
   /// This method is called when the user wants to generate a new password
   /// with the same parameters.
-  void regeneratePassword() {
-    _generatePassword();
-  }
+  void regeneratePassword() => _generatePassword();
 
   /// Update the password parameters and regenerate the password.
   ///
@@ -102,14 +120,12 @@ class PasswordGeneratorModel extends ChangeNotifier {
   /// Save the given parameters to persistent storage.
   ///
   /// This method saves the provided parameters to the settings manager.
-  Future<void> saveSettings(PasswordParams params) async {
-    await _settingsManager.saveSettings(params);
-  }
+  Future<void> saveSettings(PasswordParams params) async =>
+      _settingsManager.saveSettings(params);
 
   /// Load parameters from persistent storage.
   ///
   /// This method loads the saved parameters from the settings manager.
-  Future<PasswordParams> loadSettings() async {
-    return _settingsManager.loadSettings();
-  }
+  Future<PasswordParams> loadSettings() async =>
+      _settingsManager.loadSettings();
 }

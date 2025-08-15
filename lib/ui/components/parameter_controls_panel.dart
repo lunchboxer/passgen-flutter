@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:passgen/models/password_params.dart';
 
 class ParameterControlsPanel extends StatefulWidget {
-  final PasswordParams params;
-  final ValueChanged<PasswordParams> onParamsChanged;
-
+  /// Creates a ParameterControlsPanel widget.
   const ParameterControlsPanel({
     super.key,
     required this.params,
     required this.onParamsChanged,
   });
+
+  final PasswordParams params;
+  final ValueChanged<PasswordParams> onParamsChanged;
 
   @override
   State<ParameterControlsPanel> createState() => _ParameterControlsPanelState();

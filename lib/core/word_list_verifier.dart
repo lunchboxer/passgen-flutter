@@ -1,7 +1,12 @@
-import 'package:flutter/services.dart' show rootBundle;
+// Sort directives
 import 'package:crypto/crypto.dart' show sha256;
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:passgen/core/logger.dart';
 
+/// A utility class for verifying the integrity of word list assets.
+///
+/// This class provides methods to verify the checksum and content of word lists
+/// to ensure they haven't been tampered with or corrupted.
 class WordListVerifier {
   // These are the expected SHA-256 checksums for our word lists
   static const Map<String, String> _expectedChecksums = {
@@ -46,7 +51,7 @@ class WordListVerifier {
       }
 
       return isValid;
-    } catch (e) {
+    } on Exception catch (e) {
       Logger.error('Failed to verify word list $assetPath: $e');
       return false;
     }
@@ -71,10 +76,8 @@ class WordListVerifier {
 
       for (final line in lines) {
         final word = line.trim();
-        if (word.isNotEmpty) {
-          if (!uniqueWords.add(word)) {
-            duplicateWords.add(word);
-          }
+        if (word.isNotEmpty && !uniqueWords.add(word)) {
+          duplicateWords.add(word);
         }
       }
 
@@ -96,7 +99,8 @@ class WordListVerifier {
 
       if (shortWords.isNotEmpty) {
         Logger.warn(
-          'Word list $assetPath contains ${shortWords.length} words with less than 3 characters',
+          'Word list $assetPath contains ${shortWords.length} '
+          'words with less than 3 characters',
         );
         // Log first few short words for debugging
         shortWords.take(5).forEach((word) {
@@ -112,7 +116,8 @@ class WordListVerifier {
 
       if (nonLowercaseWords.isNotEmpty) {
         Logger.warn(
-          'Word list $assetPath contains ${nonLowercaseWords.length} non-lowercase words',
+          'Word list $assetPath contains ${nonLowercaseWords.length} '
+          'non-lowercase words',
         );
         // Log first few non-lowercase words for debugging
         nonLowercaseWords.take(5).forEach((word) {
@@ -122,7 +127,7 @@ class WordListVerifier {
 
       Logger.info('Word list $assetPath content verification completed');
       return true;
-    } catch (e) {
+    } on Exception catch (e) {
       Logger.error('Failed to verify word list content $assetPath: $e');
       return false;
     }
@@ -132,7 +137,7 @@ class WordListVerifier {
   static Future<bool> verifyAllWordLists() async {
     Logger.info('Verifying all word lists');
 
-    bool allValid = true;
+    var allValid = true;
 
     for (final assetPath in _expectedChecksums.keys) {
       final isChecksumValid = await verifyWordList(assetPath);

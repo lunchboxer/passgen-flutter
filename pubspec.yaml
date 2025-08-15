@@ -41,9 +41,6 @@ dependencies:
   # Settings persistence
   shared_preferences: ^2.1.1
   
-  # Secure storage for sensitive data
-  flutter_secure_storage: ^4.2.1
-  
   # Cryptographic functions for checksum verification
   crypto: ^3.0.3
 

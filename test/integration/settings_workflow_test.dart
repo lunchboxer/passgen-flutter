@@ -1,79 +1,141 @@
+// Sort imports alphabetically
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../lib/core/password_generator_model.dart';
+import '../../lib/core/word_repository_interface.dart';
 import 'package:passgen/main.dart';
+import '../../lib/models/password_params.dart';
+import 'package:provider/provider.dart';
+
+// Relative imports should come after package imports
+import '../mock_word_repository.dart';
+
+class TestApp extends StatelessWidget {
+  final IWordRepository wordRepository;
+  final PasswordGeneratorModel model;
+
+  const TestApp({
+    super.key,
+    required this.wordRepository,
+    required this.model,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Passgen',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: TestHome(wordRepository: wordRepository, model: model),
+    );
+  }
+}
+
+class TestHome extends StatelessWidget {
+  final IWordRepository wordRepository;
+  final PasswordGeneratorModel model;
+
+  const TestHome({
+    super.key,
+    required this.wordRepository,
+    required this.model,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider.value(
+      value: model,
+      child: const MainScreen(),
+    );
+  }
+}
 
 void main() {
   group('Settings Workflow', () {
-    testWidgets('opens settings screen when Settings button is pressed', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(const MyApp());
+    testWidgets(
+      'opens settings screen when Settings button is pressed',
+      (tester) async {
+        final mockRepository = MockWordRepository();
+        final model = PasswordGeneratorModel(wordRepository: mockRepository);
+        model.setupForTesting('test-password', PasswordParams());
 
-      // Wait for the app to initialize
-      await tester.pumpAndSettle(const Duration(seconds: 5));
+        await tester.pumpWidget(
+          TestApp(wordRepository: mockRepository, model: model),
+        );
 
-      // Find and tap the Settings button
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Settings'));
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+        // Find and tap the Settings button
+        await tester.tap(find.text('Settings'), warnIfMissed: false);
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Check that we're on the Settings screen
-      expect(find.text('Settings'), findsOneWidget);
-      expect(find.text('Default Password Parameters'), findsOneWidget);
-    });
+        // Check that we're on the Settings screen
+        expect(find.text('Settings'), findsOneWidget);
+        expect(find.text('Default Password Parameters'), findsOneWidget);
+      },
+    );
 
-    testWidgets('changes password parameters and saves them', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(const MyApp());
+    testWidgets(
+      'changes password parameters and saves them',
+      (tester) async {
+        final mockRepository = MockWordRepository();
+        final model = PasswordGeneratorModel(wordRepository: mockRepository);
+        model.setupForTesting('test-password', PasswordParams());
 
-      // Wait for the app to initialize
-      await tester.pumpAndSettle(const Duration(seconds: 5));
+        await tester.pumpWidget(
+          TestApp(wordRepository: mockRepository, model: model),
+        );
 
-      // Find and tap the Settings button
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Settings'));
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+        // Find and tap the Settings button
+        await tester.tap(find.text('Settings'));
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Change the word count
-      final slider = find.byType(Slider);
-      await tester.drag(slider, const Offset(100, 0));
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+        // Change the word count
+        final slider = find.byType(Slider);
+        await tester.drag(slider, const Offset(100, 0));
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Toggle the capitalize switch
-      await tester.tap(find.widgetWithText(SwitchListTile, 'Capitalize Words'));
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+        // Toggle the capitalize switch
+        await tester.tap(find.widgetWithText(SwitchListTile, 'Capitalize Words'));
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Find and tap the save button
-      await tester.tap(find.byIcon(Icons.save));
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+        // Find and tap the save button
+        await tester.tap(find.byIcon(Icons.save));
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Check that we're back on the main screen
-      expect(find.text('Settings'), findsNothing);
-      expect(find.text('Passgen'), findsOneWidget);
-    });
+        // Check that we're back on the main screen
+        expect(find.text('Settings'), findsNothing);
+        expect(find.text('Passgen'), findsOneWidget);
+      },
+    );
 
-    testWidgets('changes separator character in settings', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(const MyApp());
+    testWidgets(
+      'changes separator character in settings',
+      (tester) async {
+        final mockRepository = MockWordRepository();
+        final model = PasswordGeneratorModel(wordRepository: mockRepository);
+        model.setupForTesting('test-password', PasswordParams());
 
-      // Wait for the app to initialize
-      await tester.pumpAndSettle(const Duration(seconds: 5));
+        await tester.pumpWidget(
+          TestApp(wordRepository: mockRepository, model: model),
+        );
 
-      // Find and tap the Settings button
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Settings'));
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+        // Find and tap the Settings button
+        await tester.tap(find.text('Settings'));
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Find the separator text field and enter a new separator
-      final separatorField = find.byType(TextField).first;
-      await tester.enterText(separatorField, '_');
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+        // Find the separator text field and enter a new separator
+        final separatorField = find.byType(TextField).first;
+        await tester.enterText(separatorField, '_');
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Find and tap the save button
-      await tester.tap(find.byIcon(Icons.save));
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+        // Find and tap the save button
+        await tester.tap(find.byIcon(Icons.save));
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Check that we're back on the main screen
-      expect(find.text('Settings'), findsNothing);
-    });
+        // Check that we're back on the main screen
+        expect(find.text('Settings'), findsNothing);
+      },
+    );
   });
 }

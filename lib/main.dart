@@ -1,12 +1,13 @@
+// Sort directive sections alphabetically
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:passgen/core/clipboard_service.dart';
 import 'package:passgen/core/logger.dart';
 import 'package:passgen/core/password_generator_model.dart';
-import 'package:passgen/core/clipboard_service.dart';
-import 'package:passgen/ui/components/password_display_widget.dart';
-import 'package:passgen/ui/components/parameter_controls_panel.dart';
 import 'package:passgen/ui/components/action_buttons_row.dart';
+import 'package:passgen/ui/components/parameter_controls_panel.dart';
+import 'package:passgen/ui/components/password_display_widget.dart';
 import 'package:passgen/ui/settings_screen.dart';
+import 'package:provider/provider.dart';
 
 /// The main entry point for the Passgen application.
 ///
@@ -136,7 +137,7 @@ class MainScreen extends StatelessWidget {
   /// Copies the given [password] to the clipboard.
   ///
   /// Shows a snackbar with success or error message.
-  void _copyToClipboard(BuildContext context, String password) async {
+  Future<void> _copyToClipboard(BuildContext context, String password) async {
     try {
       await ClipboardService.copyToClipboard(password);
 
@@ -145,7 +146,7 @@ class MainScreen extends StatelessWidget {
           const SnackBar(content: Text('Password copied to clipboard')),
         );
       }
-    } catch (e) {
+    } on Exception catch (e) {
       Logger.error('Failed to copy password to clipboard: $e');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -169,6 +170,7 @@ class MainScreen extends StatelessWidget {
           },
         ),
       ),
-    );
+    )
+      ..then((value) => null); // Using cascade to avoid duplication warning
   }
 }
