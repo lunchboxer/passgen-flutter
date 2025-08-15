@@ -1,0 +1,205 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v4
+
+      # Setup Java (required for Android builds)
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Setup Flutter SDK
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+
+      # Verify Flutter installation
+      - name: Verify Flutter installation
+        run: |
+          flutter doctor -v
+
+      # Get Flutter dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Check for any analysis issues
+      - name: Verify code formatting and analyze project
+        run: |
+          dart format --output=none --set-exit-if-changed .
+          dart analyze
+
+      # Run unit tests
+      - name: Run unit tests
+        run: flutter test --coverage
+
+      # Run widget tests
+      - name: Run widget tests
+        run: flutter test test/widget_test.dart
+
+      # Run core tests
+      - name: Run core tests
+        run: flutter test test/core
+
+      # Run integration tests
+      - name: Run integration tests
+        run: flutter test test/integration
+
+      # Run UI tests
+      - name: Run UI tests
+        run: flutter test test/ui
+
+      # Run model tests
+      - name: Run model tests
+        run: flutter test test/models
+
+      # Run performance tests (as regular tests, not benchmarks)
+      - name: Run performance tests
+        run: flutter test test/performance
+
+      # Upload coverage reports (optional)
+      # - name: Upload coverage to Codecov
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     file: coverage/lcov.info
+      #     flags: unittests
+      #     name: codecov-umbrella
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v4
+
+      # Setup Java (required for Android builds)
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Setup Flutter SDK
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+
+      # Get Flutter dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Build Android APK
+      - name: Build Android APK
+        run: flutter build apk --debug
+
+      # Build web version
+      - name: Build Web
+        run: flutter build web
+
+      # Archive build artifacts (optional)
+      - name: Archive APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+
+      - name: Archive web build
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web/
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v4
+
+      # Setup Flutter SDK
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+
+      # Get Flutter dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Check for linting issues
+      - name: Run Flutter analyzer
+        run: flutter analyze
+
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v4
+
+      # Setup Flutter SDK
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+
+      # Check code formatting
+      - name: Check Dart formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+  # Optional job for running benchmarks
+  benchmark:
+    needs: test
+    runs-on: ubuntu-latest
+    # Only run benchmarks on main branch pushes, not PRs
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v4
+
+      # Setup Flutter SDK
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+
+      # Get Flutter dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Run performance benchmarks
+      - name: Run performance benchmarks
+        run: |
+          echo "Running password generation benchmark..."
+          dart test/performance/password_generation_benchmark.dart
+          
+          echo "Running settings manager benchmark..."
+          dart test/performance/settings_manager_benchmark.dart
+          
+          echo "Running simple computation benchmark..."
+          dart test/performance/simple_computation_benchmark.dart
+          
+          echo "Running string operation benchmark..."
+          dart test/performance/string_operation_benchmark.dart
+          
+          echo "Running word list loading benchmark..."
+          dart test/performance/word_list_loading_benchmark.dart
