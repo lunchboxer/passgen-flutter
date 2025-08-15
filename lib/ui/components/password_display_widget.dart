@@ -16,6 +16,13 @@ class PasswordDisplayWidget extends StatefulWidget {
 
 class _PasswordDisplayWidgetState extends State<PasswordDisplayWidget> {
   bool _showCopiedMessage = false;
+  late Duration _messageDuration;
+
+  @override
+  void initState() {
+    super.initState();
+    _messageDuration = const Duration(seconds: 2);
+  }
 
   void _handleCopy() {
     widget.onCopy();
@@ -23,8 +30,8 @@ class _PasswordDisplayWidgetState extends State<PasswordDisplayWidget> {
       _showCopiedMessage = true;
     });
     
-    // Hide the copied message after 2 seconds
-    Future.delayed(const Duration(seconds: 2), () {
+    // Hide the copied message after the specified duration
+    Future.delayed(_messageDuration, () {
       if (mounted) {
         setState(() {
           _showCopiedMessage = false;
