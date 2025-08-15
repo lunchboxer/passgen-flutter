@@ -8,13 +8,20 @@ import 'package:passgen/ui/components/parameter_controls_panel.dart';
 import 'package:passgen/ui/components/action_buttons_row.dart';
 import 'package:passgen/ui/settings_screen.dart';
 
+/// The main entry point for the Passgen application.
+///
+/// This function initializes the logging system and starts the Flutter app.
 void main() {
   // Initialize logging
   Logger.info('Starting Passgen application');
   runApp(const MyApp());
 }
 
+/// The root widget of the Passgen application.
+///
+/// This widget sets up the app with a Material theme and the main screen.
 class MyApp extends StatelessWidget {
+  /// Creates a MyApp widget.
   const MyApp({super.key});
 
   @override
@@ -34,7 +41,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// The main screen of the Passgen application.
+///
+/// This widget displays the password generator interface with:
+/// - Password display area
+/// - Parameter controls
+/// - Action buttons (regenerate, settings)
 class MainScreen extends StatelessWidget {
+  /// Creates a MainScreen widget.
   const MainScreen({super.key});
 
   @override
@@ -116,6 +130,9 @@ class MainScreen extends StatelessWidget {
     );
   }
   
+  /// Copies the given [password] to the clipboard.
+  ///
+  /// Shows a snackbar with success or error message.
   void _copyToClipboard(BuildContext context, String password) async {
     try {
       await ClipboardService.copyToClipboard(password);
@@ -135,6 +152,9 @@ class MainScreen extends StatelessWidget {
     }
   }
   
+  /// Navigates to the settings screen.
+  ///
+  /// Passes the current parameters and a callback to save new parameters.
   void _navigateToSettings(BuildContext context, PasswordGeneratorModel model) {
     Navigator.of(context).push(
       MaterialPageRoute(

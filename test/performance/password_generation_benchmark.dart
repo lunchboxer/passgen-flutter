@@ -4,12 +4,12 @@ import 'package:passgen/core/word_repository.dart';
 import 'package:passgen/models/password_params.dart';
 
 class PasswordGenerationBenchmark extends BenchmarkBase {
-  final PasswordGeneratorService _generator;
+  late WordRepository _repository;
+  late PasswordGeneratorService _generator;
   final PasswordParams _params;
 
   PasswordGenerationBenchmark()
-      : _generator = PasswordGeneratorService(WordRepository()),
-        _params = PasswordParams(),
+      : _params = PasswordParams(),
         super('Password Generation');
 
   static void main() {
@@ -18,7 +18,9 @@ class PasswordGenerationBenchmark extends BenchmarkBase {
 
   @override
   Future<void> setup() async {
-    await _generator.initialize();
+    _repository = WordRepository();
+    await _repository.initialize();
+    _generator = PasswordGeneratorService(_repository);
   }
 
   @override
@@ -28,5 +30,5 @@ class PasswordGenerationBenchmark extends BenchmarkBase {
 }
 
 void main() {
-  PasswordGenerationBenchmark.main();
+  PasswordGenerationBenchmark().report();
 }

@@ -5,6 +5,12 @@ import 'package:passgen/core/word_repository_interface.dart';
 import 'package:passgen/core/word_list_verifier.dart';
 import 'package:passgen/core/security_service.dart';
 
+/// A repository that manages word lists for password generation.
+///
+/// This class implements the [IWordRepository] interface and is responsible for:
+/// - Loading word lists from assets
+/// - Verifying the integrity of word lists
+/// - Providing random words for password generation
 class WordRepository implements IWordRepository {
   final Random _random = Random();
   List<String> _primaryWordList = [];
@@ -96,9 +102,9 @@ class WordRepository implements IWordRepository {
     return _shortWordList[_random.nextInt(_shortWordList.length)];
   }
 
-  /// Get the primary word list (for testing purposes)
+  /// Get the primary word list (for testing purposes).
   List<String> get primaryWordList => _primaryWordList;
 
-  /// Get the short word list (for testing purposes)
+  /// Get the short word list (for testing purposes).
   List<String> get shortWordList => _shortWordList;
 }

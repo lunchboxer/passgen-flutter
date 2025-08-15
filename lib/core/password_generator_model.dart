@@ -5,6 +5,14 @@ import 'package:passgen/core/settings_manager.dart';
 import 'package:passgen/models/password_params.dart';
 import 'package:passgen/core/logger.dart';
 
+/// A model class that manages the state of the password generator.
+///
+/// This class extends [ChangeNotifier] to provide state management for the UI.
+/// It handles:
+/// - Initializing the word repository, password generator, and settings manager
+/// - Managing the current password parameters
+/// - Generating passwords
+/// - Saving and loading settings
 class PasswordGeneratorModel extends ChangeNotifier {
   late WordRepository _wordRepository;
   late PasswordGeneratorService _passwordGenerator;
@@ -14,10 +22,23 @@ class PasswordGeneratorModel extends ChangeNotifier {
   String _currentPassword = '';
   bool _isInitialized = false;
   
+  /// The current password parameters.
   PasswordParams get currentParams => _currentParams;
+  
+  /// The currently generated password.
   String get currentPassword => _currentPassword;
+  
+  /// Whether the model has been initialized.
   bool get isInitialized => _isInitialized;
   
+  /// Initialize the model by setting up all dependencies.
+  ///
+  /// This method initializes:
+  /// - The word repository
+  /// - The settings manager
+  /// - The password generator
+  /// - Loads saved settings
+  /// - Generates the initial password
   Future<void> initialize() async {
     Logger.info('Initializing PasswordGeneratorModel');
     
@@ -43,6 +64,10 @@ class PasswordGeneratorModel extends ChangeNotifier {
     notifyListeners();
   }
   
+  /// Generate a new password using the current parameters.
+  ///
+  /// This method uses the password generator to create a new password
+  /// and notifies listeners of the change.
   void _generatePassword() {
     try {
       _currentPassword = _passwordGenerator.generate(_currentParams);
@@ -55,10 +80,18 @@ class PasswordGeneratorModel extends ChangeNotifier {
     }
   }
   
+  /// Regenerate the password with the current parameters.
+  ///
+  /// This method is called when the user wants to generate a new password
+  /// with the same parameters.
   void regeneratePassword() {
     _generatePassword();
   }
   
+  /// Update the password parameters and regenerate the password.
+  ///
+  /// This method updates the current parameters and immediately generates
+  /// a new password with the updated parameters.
   void updateParams(PasswordParams newParams) {
     _currentParams = newParams;
     notifyListeners();
@@ -66,10 +99,16 @@ class PasswordGeneratorModel extends ChangeNotifier {
     _generatePassword();
   }
   
+  /// Save the given parameters to persistent storage.
+  ///
+  /// This method saves the provided parameters to the settings manager.
   Future<void> saveSettings(PasswordParams params) async {
     await _settingsManager.saveSettings(params);
   }
   
+  /// Load parameters from persistent storage.
+  ///
+  /// This method loads the saved parameters from the settings manager.
   Future<PasswordParams> loadSettings() async {
     return _settingsManager.loadSettings();
   }

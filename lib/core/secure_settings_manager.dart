@@ -1,6 +1,15 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:passgen/models/password_params.dart';
 
+/// A manager for handling user settings using secure storage.
+///
+/// This class is responsible for:
+/// - Loading saved settings from secure storage
+/// - Saving settings to secure storage
+/// - Resetting settings to default values
+///
+/// Unlike [SettingsManager], this class uses FlutterSecureStorage which provides
+/// encrypted storage for sensitive data.
 class SecureSettingsManager {
   static const String _wordCountKey = 'wordCount';
   static const String _capitalizeKey = 'capitalize';
@@ -18,7 +27,10 @@ class SecureSettingsManager {
 
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
-  /// Load settings from secure storage
+  /// Load settings from secure storage.
+  ///
+  /// Returns a [PasswordParams] object with the loaded settings.
+  /// If no settings are found, default values are used.
   Future<PasswordParams> loadSettings() async {
     final wordCountString = await _secureStorage.read(key: _wordCountKey);
     final capitalizeString = await _secureStorage.read(key: _capitalizeKey);
@@ -43,7 +55,9 @@ class SecureSettingsManager {
     );
   }
 
-  /// Save settings to secure storage
+  /// Save settings to secure storage.
+  ///
+  /// Takes a [PasswordParams] object and saves its values to secure storage.
   Future<void> saveSettings(PasswordParams params) async {
     await _secureStorage.write(key: _wordCountKey, value: params.wordCount.toString());
     await _secureStorage.write(key: _capitalizeKey, value: params.capitalize.toString());
@@ -59,7 +73,10 @@ class SecureSettingsManager {
     }
   }
 
-  /// Reset settings to default values
+  /// Reset settings to default values.
+  ///
+  /// This method sets all settings back to their default values
+  /// and removes any saved length constraint.
   Future<void> resetToDefaults() async {
     await _secureStorage.write(key: _wordCountKey, value: _defaultWordCount.toString());
     await _secureStorage.write(key: _capitalizeKey, value: _defaultCapitalize.toString());

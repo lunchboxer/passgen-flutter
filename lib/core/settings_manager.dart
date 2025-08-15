@@ -1,6 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:passgen/models/password_params.dart';
 
+/// A manager for handling user settings using SharedPreferences.
+///
+/// This class is responsible for:
+/// - Initializing the SharedPreferences instance
+/// - Loading saved settings
+/// - Saving settings
+/// - Resetting settings to default values
 class SettingsManager {
   static const String _wordCountKey = 'wordCount';
   static const String _capitalizeKey = 'capitalize';
@@ -18,11 +25,15 @@ class SettingsManager {
 
   late SharedPreferences _prefs;
 
+  /// Initialize the SettingsManager by getting the SharedPreferences instance.
   Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  /// Load settings from SharedPreferences
+  /// Load settings from SharedPreferences.
+  ///
+  /// Returns a [PasswordParams] object with the loaded settings.
+  /// If no settings are found, default values are used.
   Future<PasswordParams> loadSettings() async {
     final wordCount = _prefs.getInt(_wordCountKey) ?? _defaultWordCount;
     final capitalize = _prefs.getBool(_capitalizeKey) ?? _defaultCapitalize;
@@ -41,7 +52,9 @@ class SettingsManager {
     );
   }
 
-  /// Save settings to SharedPreferences
+  /// Save settings to SharedPreferences.
+  ///
+  /// Takes a [PasswordParams] object and saves its values to SharedPreferences.
   Future<void> saveSettings(PasswordParams params) async {
     await _prefs.setInt(_wordCountKey, params.wordCount);
     await _prefs.setBool(_capitalizeKey, params.capitalize);
@@ -57,7 +70,10 @@ class SettingsManager {
     }
   }
 
-  /// Reset settings to default values
+  /// Reset settings to default values.
+  ///
+  /// This method sets all settings back to their default values
+  /// and removes any saved length constraint.
   Future<void> resetToDefaults() async {
     await _prefs.setInt(_wordCountKey, _defaultWordCount);
     await _prefs.setBool(_capitalizeKey, _defaultCapitalize);
