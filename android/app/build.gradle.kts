@@ -35,6 +35,9 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
+        // Enable hardware acceleration for better performance
+        renderscriptTargetApi = 21
     }
 
     signingConfigs {
@@ -58,6 +61,36 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            
+            // Enable additional optimizations
+            isDebuggable = false
+            isJniDebuggable = false
+            isCrunchPngs = true
+            
+            // Set build configuration
+            ndk {
+                abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a"))
+            }
+        }
+        
+        debug {
+            // Enable additional optimizations for debug builds too
+            isCrunchPngs = true
+            
+            // Set build configuration
+            ndk {
+                abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86_64"))
+            }
+        }
+    }
+    
+    // Enable splits for smaller APKs
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("armeabi-v7a", "arm64-v8a")
+            isUniversalApk = true
         }
     }
 }
