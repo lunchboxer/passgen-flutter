@@ -4,8 +4,9 @@ import 'package:passgen/main.dart';
 
 void main() {
   group('Full Application Workflow', () {
-    testWidgets('complete workflow from settings to password generation',
-        (WidgetTester tester) async {
+    testWidgets('complete workflow from settings to password generation', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const MyApp());
 
       // Wait for the app to initialize
@@ -40,11 +41,15 @@ void main() {
           (passwordFinder.evaluate().single.widget as Text).data;
       expect(passwordText, isNotNull);
       expect(passwordText, isNotEmpty);
-      expect(passwordText, contains('_')); // Check that underscore separator is used
+      expect(
+        passwordText,
+        contains('_'),
+      ); // Check that underscore separator is used
     });
 
-    testWidgets('copy password after changing settings',
-        (WidgetTester tester) async {
+    testWidgets('copy password after changing settings', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const MyApp());
 
       // Wait for the app to initialize
@@ -68,7 +73,9 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 2));
 
       // Copy the password
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Copy to Clipboard'));
+      await tester.tap(
+        find.widgetWithText(ElevatedButton, 'Copy to Clipboard'),
+      );
       await tester.pumpAndSettle(const Duration(seconds: 2));
 
       // Check that the snackbar with "Password copied to clipboard" message is displayed

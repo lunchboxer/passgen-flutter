@@ -37,12 +37,20 @@ class SecureSettingsManager {
     final separator = await _secureStorage.read(key: _separatorKey);
     final appendNumberString = await _secureStorage.read(key: _appendNumberKey);
     final appendSymbolString = await _secureStorage.read(key: _appendSymbolKey);
-    final lengthConstraintString = await _secureStorage.read(key: _lengthConstraintKey);
+    final lengthConstraintString = await _secureStorage.read(
+      key: _lengthConstraintKey,
+    );
 
     final wordCount = int.tryParse(wordCountString ?? '') ?? _defaultWordCount;
-    final capitalize = capitalizeString == 'true' ? true : (capitalizeString == 'false' ? false : _defaultCapitalize);
-    final appendNumber = appendNumberString == 'true' ? true : (appendNumberString == 'false' ? false : _defaultAppendNumber);
-    final appendSymbol = appendSymbolString == 'true' ? true : (appendSymbolString == 'false' ? false : _defaultAppendSymbol);
+    final capitalize = capitalizeString == 'true'
+        ? true
+        : (capitalizeString == 'false' ? false : _defaultCapitalize);
+    final appendNumber = appendNumberString == 'true'
+        ? true
+        : (appendNumberString == 'false' ? false : _defaultAppendNumber);
+    final appendSymbol = appendSymbolString == 'true'
+        ? true
+        : (appendSymbolString == 'false' ? false : _defaultAppendSymbol);
     final lengthConstraint = int.tryParse(lengthConstraintString ?? '');
 
     return PasswordParams(
@@ -59,15 +67,30 @@ class SecureSettingsManager {
   ///
   /// Takes a [PasswordParams] object and saves its values to secure storage.
   Future<void> saveSettings(PasswordParams params) async {
-    await _secureStorage.write(key: _wordCountKey, value: params.wordCount.toString());
-    await _secureStorage.write(key: _capitalizeKey, value: params.capitalize.toString());
+    await _secureStorage.write(
+      key: _wordCountKey,
+      value: params.wordCount.toString(),
+    );
+    await _secureStorage.write(
+      key: _capitalizeKey,
+      value: params.capitalize.toString(),
+    );
     await _secureStorage.write(key: _separatorKey, value: params.separator);
-    await _secureStorage.write(key: _appendNumberKey, value: params.appendNumber.toString());
-    await _secureStorage.write(key: _appendSymbolKey, value: params.appendSymbol.toString());
-    
+    await _secureStorage.write(
+      key: _appendNumberKey,
+      value: params.appendNumber.toString(),
+    );
+    await _secureStorage.write(
+      key: _appendSymbolKey,
+      value: params.appendSymbol.toString(),
+    );
+
     // Handle nullable lengthConstraint
     if (params.lengthConstraint != null) {
-      await _secureStorage.write(key: _lengthConstraintKey, value: params.lengthConstraint.toString());
+      await _secureStorage.write(
+        key: _lengthConstraintKey,
+        value: params.lengthConstraint.toString(),
+      );
     } else {
       await _secureStorage.delete(key: _lengthConstraintKey);
     }
@@ -78,11 +101,23 @@ class SecureSettingsManager {
   /// This method sets all settings back to their default values
   /// and removes any saved length constraint.
   Future<void> resetToDefaults() async {
-    await _secureStorage.write(key: _wordCountKey, value: _defaultWordCount.toString());
-    await _secureStorage.write(key: _capitalizeKey, value: _defaultCapitalize.toString());
+    await _secureStorage.write(
+      key: _wordCountKey,
+      value: _defaultWordCount.toString(),
+    );
+    await _secureStorage.write(
+      key: _capitalizeKey,
+      value: _defaultCapitalize.toString(),
+    );
     await _secureStorage.write(key: _separatorKey, value: _defaultSeparator);
-    await _secureStorage.write(key: _appendNumberKey, value: _defaultAppendNumber.toString());
-    await _secureStorage.write(key: _appendSymbolKey, value: _defaultAppendSymbol.toString());
+    await _secureStorage.write(
+      key: _appendNumberKey,
+      value: _defaultAppendNumber.toString(),
+    );
+    await _secureStorage.write(
+      key: _appendSymbolKey,
+      value: _defaultAppendSymbol.toString(),
+    );
     await _secureStorage.delete(key: _lengthConstraintKey);
   }
 }

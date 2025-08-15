@@ -13,8 +13,9 @@ void main() {
       appendSymbol: false,
     );
 
-    testWidgets('renders all controls with correct initial values',
-        (WidgetTester tester) async {
+    testWidgets('renders all controls with correct initial values', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: ParameterControlsPanel(
@@ -37,8 +38,9 @@ void main() {
       expect(find.byType(TextField), findsOneWidget);
     });
 
-    testWidgets('updates word count when slider is moved',
-        (WidgetTester tester) async {
+    testWidgets('updates word count when slider is moved', (
+      WidgetTester tester,
+    ) async {
       late PasswordParams updatedParams;
       await tester.pumpWidget(
         MaterialApp(
@@ -74,15 +76,19 @@ void main() {
       );
 
       // Find the capitalize switch and toggle it
-      final switchFinder = find.widgetWithText(SwitchListTile, 'Capitalize Words');
+      final switchFinder = find.widgetWithText(
+        SwitchListTile,
+        'Capitalize Words',
+      );
       await tester.tap(switchFinder);
 
       // Verify that onParamsChanged was called with updated params
       expect(updatedParams.capitalize, isFalse);
     });
 
-    testWidgets('updates separator when text field is changed',
-        (WidgetTester tester) async {
+    testWidgets('updates separator when text field is changed', (
+      WidgetTester tester,
+    ) async {
       late PasswordParams updatedParams;
       await tester.pumpWidget(
         MaterialApp(

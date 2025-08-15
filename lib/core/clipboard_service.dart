@@ -12,7 +12,7 @@ class ClipboardService {
       rethrow;
     }
   }
-  
+
   /// Gets text from the clipboard
   static Future<String?> getClipboardText() async {
     try {

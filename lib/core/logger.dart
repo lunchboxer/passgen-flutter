@@ -3,7 +3,7 @@ import 'package:passgen/core/security_service.dart';
 
 class Logger {
   static const bool _isDebugMode = kDebugMode;
-  
+
   static void debug(String message) {
     if (_isDebugMode) {
       // In debug mode, we can log more detailed information
@@ -19,25 +19,25 @@ class Logger {
       }
     }
   }
-  
+
   static void info(String message) {
     // Info level logging is always enabled
     // ignore: avoid_print
     print('INFO: $message');
   }
-  
+
   static void warn(String message) {
     // Warning level logging is always enabled
     // ignore: avoid_print
     print('WARN: $message');
   }
-  
+
   static void error(String message) {
     // Error level logging is always enabled
     // ignore: avoid_print
     print('ERROR: $message');
   }
-  
+
   /// Logs sensitive information only if allowed by security settings
   static void sensitive(String message) {
     if (SecurityService.isSensitiveLoggingAllowed()) {

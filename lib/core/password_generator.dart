@@ -10,7 +10,7 @@ import 'package:passgen/models/password_params.dart';
 /// options such as word count, capitalization, separators, and appending numbers or symbols.
 class PasswordGeneratorService implements IPasswordGenerator {
   final IWordRepository _wordRepository;
-  
+
   /// Common symbols for appending to passwords.
   static const List<String> _symbols = ['!', '@', '#', '\$', '%', '&', '*'];
 
@@ -32,12 +32,11 @@ class PasswordGeneratorService implements IPasswordGenerator {
       int totalExtraChars = 0;
       if (params.appendNumber) totalExtraChars += 1; // One digit
       if (params.appendSymbol) totalExtraChars += 1; // One symbol
-      
+
       // Subtract separators (wordCount - 1) and extra chars, then divide by wordCount
-      int availableChars = params.lengthConstraint! - 
-                          (params.wordCount - 1) - 
-                          totalExtraChars;
-      
+      int availableChars =
+          params.lengthConstraint! - (params.wordCount - 1) - totalExtraChars;
+
       if (availableChars > 0) {
         maxWordLength = availableChars ~/ params.wordCount;
       }
@@ -47,14 +46,14 @@ class PasswordGeneratorService implements IPasswordGenerator {
     final words = <String>[];
     for (int i = 0; i < params.wordCount; i++) {
       String word = _wordRepository.getRandomWord(maxLength: maxWordLength);
-      
+
       // Apply capitalization if requested
       if (params.capitalize) {
         if (word.isNotEmpty) {
           word = word[0].toUpperCase() + word.substring(1);
         }
       }
-      
+
       words.add(word);
     }
 

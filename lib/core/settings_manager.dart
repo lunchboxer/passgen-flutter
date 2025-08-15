@@ -38,9 +38,13 @@ class SettingsManager {
     final wordCount = _prefs.getInt(_wordCountKey) ?? _defaultWordCount;
     final capitalize = _prefs.getBool(_capitalizeKey) ?? _defaultCapitalize;
     final separator = _prefs.getString(_separatorKey) ?? _defaultSeparator;
-    final appendNumber = _prefs.getBool(_appendNumberKey) ?? _defaultAppendNumber;
-    final appendSymbol = _prefs.getBool(_appendSymbolKey) ?? _defaultAppendSymbol;
-    final lengthConstraint = _prefs.getInt(_lengthConstraintKey); // null by default
+    final appendNumber =
+        _prefs.getBool(_appendNumberKey) ?? _defaultAppendNumber;
+    final appendSymbol =
+        _prefs.getBool(_appendSymbolKey) ?? _defaultAppendSymbol;
+    final lengthConstraint = _prefs.getInt(
+      _lengthConstraintKey,
+    ); // null by default
 
     return PasswordParams(
       wordCount: wordCount,
@@ -61,7 +65,7 @@ class SettingsManager {
     await _prefs.setString(_separatorKey, params.separator);
     await _prefs.setBool(_appendNumberKey, params.appendNumber);
     await _prefs.setBool(_appendSymbolKey, params.appendSymbol);
-    
+
     // Handle nullable lengthConstraint
     if (params.lengthConstraint != null) {
       await _prefs.setInt(_lengthConstraintKey, params.lengthConstraint!);

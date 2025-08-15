@@ -13,14 +13,12 @@ void main() {
       appendSymbol: false,
     );
 
-    testWidgets('renders all controls with correct initial values',
-        (WidgetTester tester) async {
+    testWidgets('renders all controls with correct initial values', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: SettingsScreen(
-            currentParams: testParams,
-            onSave: (params) {},
-          ),
+          home: SettingsScreen(currentParams: testParams, onSave: (params) {}),
         ),
       );
 
@@ -47,8 +45,9 @@ void main() {
       expect(find.byIcon(Icons.save), findsOneWidget);
     });
 
-    testWidgets('updates word count when slider is moved',
-        (WidgetTester tester) async {
+    testWidgets('updates word count when slider is moved', (
+      WidgetTester tester,
+    ) async {
       late PasswordParams savedParams;
       await tester.pumpWidget(
         MaterialApp(
@@ -86,7 +85,10 @@ void main() {
       );
 
       // Find the capitalize switch and toggle it
-      final switchFinder = find.widgetWithText(SwitchListTile, 'Capitalize Words');
+      final switchFinder = find.widgetWithText(
+        SwitchListTile,
+        'Capitalize Words',
+      );
       await tester.tap(switchFinder);
 
       // Tap the save button
@@ -96,8 +98,9 @@ void main() {
       expect(savedParams.capitalize, isFalse);
     });
 
-    testWidgets('updates separator when text field is changed',
-        (WidgetTester tester) async {
+    testWidgets('updates separator when text field is changed', (
+      WidgetTester tester,
+    ) async {
       late PasswordParams savedParams;
       await tester.pumpWidget(
         MaterialApp(
@@ -121,8 +124,9 @@ void main() {
       expect(savedParams.separator, equals('_'));
     });
 
-    testWidgets('updates length constraint when text field is changed',
-        (WidgetTester tester) async {
+    testWidgets('updates length constraint when text field is changed', (
+      WidgetTester tester,
+    ) async {
       late PasswordParams savedParams;
       await tester.pumpWidget(
         MaterialApp(
@@ -146,8 +150,9 @@ void main() {
       expect(savedParams.lengthConstraint, equals(10));
     });
 
-    testWidgets('shows validation error for invalid parameters',
-        (WidgetTester tester) async {
+    testWidgets('shows validation error for invalid parameters', (
+      WidgetTester tester,
+    ) async {
       late PasswordParams savedParams;
       await tester.pumpWidget(
         MaterialApp(

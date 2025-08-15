@@ -17,20 +17,20 @@ class PasswordGeneratorModel extends ChangeNotifier {
   late WordRepository _wordRepository;
   late PasswordGeneratorService _passwordGenerator;
   late SettingsManager _settingsManager;
-  
+
   PasswordParams _currentParams = PasswordParams();
   String _currentPassword = '';
   bool _isInitialized = false;
-  
+
   /// The current password parameters.
   PasswordParams get currentParams => _currentParams;
-  
+
   /// The currently generated password.
   String get currentPassword => _currentPassword;
-  
+
   /// Whether the model has been initialized.
   bool get isInitialized => _isInitialized;
-  
+
   /// Initialize the model by setting up all dependencies.
   ///
   /// This method initializes:
@@ -41,29 +41,29 @@ class PasswordGeneratorModel extends ChangeNotifier {
   /// - Generates the initial password
   Future<void> initialize() async {
     Logger.info('Initializing PasswordGeneratorModel');
-    
+
     // Initialize word repository
     _wordRepository = WordRepository();
     await _wordRepository.initialize();
     Logger.debug('Word repository initialized');
-    
+
     // Initialize settings manager
     _settingsManager = SettingsManager();
     await _settingsManager.initialize();
     _currentParams = await _settingsManager.loadSettings();
     Logger.debug('Settings manager initialized');
-    
+
     // Initialize password generator
     _passwordGenerator = PasswordGeneratorService(_wordRepository);
     Logger.debug('Password generator initialized');
-    
+
     // Generate initial password
     _generatePassword();
-    
+
     _isInitialized = true;
     notifyListeners();
   }
-  
+
   /// Generate a new password using the current parameters.
   ///
   /// This method uses the password generator to create a new password
@@ -79,7 +79,7 @@ class PasswordGeneratorModel extends ChangeNotifier {
       rethrow;
     }
   }
-  
+
   /// Regenerate the password with the current parameters.
   ///
   /// This method is called when the user wants to generate a new password
@@ -87,7 +87,7 @@ class PasswordGeneratorModel extends ChangeNotifier {
   void regeneratePassword() {
     _generatePassword();
   }
-  
+
   /// Update the password parameters and regenerate the password.
   ///
   /// This method updates the current parameters and immediately generates
@@ -98,14 +98,14 @@ class PasswordGeneratorModel extends ChangeNotifier {
     // Regenerate password when parameters change
     _generatePassword();
   }
-  
+
   /// Save the given parameters to persistent storage.
   ///
   /// This method saves the provided parameters to the settings manager.
   Future<void> saveSettings(PasswordParams params) async {
     await _settingsManager.saveSettings(params);
   }
-  
+
   /// Load parameters from persistent storage.
   ///
   /// This method loads the saved parameters from the settings manager.

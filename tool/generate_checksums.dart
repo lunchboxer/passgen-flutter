@@ -7,7 +7,7 @@ Future<void> main() async {
   final wordsBytes = await wordsFile.readAsBytes();
   final wordsDigest = sha256.convert(wordsBytes);
   print('assets/words.txt: $wordsDigest');
-  
+
   // Calculate checksum for short-words.txt
   final shortWordsFile = File('assets/short-words.txt');
   final shortWordsBytes = await shortWordsFile.readAsBytes();

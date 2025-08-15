@@ -16,7 +16,7 @@ void main() {
 
     test('should load default settings when no saved settings exist', () async {
       final params = await settingsManager.loadSettings();
-      
+
       expect(params.wordCount, 3);
       expect(params.capitalize, true);
       expect(params.separator, '-');
@@ -43,7 +43,7 @@ void main() {
 
     test('should handle null length constraint', () async {
       final params = PasswordParams(lengthConstraint: null);
-      
+
       await settingsManager.saveSettings(params);
       final loadedParams = await settingsManager.loadSettings();
 

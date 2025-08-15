@@ -39,10 +39,7 @@ void main() {
     });
 
     test('should validate correct parameters', () {
-      final validParams = PasswordParams(
-        wordCount: 3,
-        separator: '-',
-      );
+      final validParams = PasswordParams(wordCount: 3, separator: '-');
       expect(validParams.validate(), true);
     });
 

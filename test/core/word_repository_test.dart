@@ -14,9 +14,12 @@ void main() {
       expect(repository.shortWordList, isEmpty);
     });
 
-    test('should throw error when getting word from uninitialized repository', () {
-      expect(() => repository.getRandomWord(), throwsStateError);
-      expect(() => repository.getRandomWord(maxLength: 5), throwsStateError);
-    });
+    test(
+      'should throw error when getting word from uninitialized repository',
+      () {
+        expect(() => repository.getRandomWord(), throwsStateError);
+        expect(() => repository.getRandomWord(maxLength: 5), throwsStateError);
+      },
+    );
   });
 }

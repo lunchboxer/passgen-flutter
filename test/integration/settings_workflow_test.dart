@@ -4,8 +4,9 @@ import 'package:passgen/main.dart';
 
 void main() {
   group('Settings Workflow', () {
-    testWidgets('opens settings screen when Settings button is pressed',
-        (WidgetTester tester) async {
+    testWidgets('opens settings screen when Settings button is pressed', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const MyApp());
 
       // Wait for the app to initialize
@@ -20,8 +21,9 @@ void main() {
       expect(find.text('Default Password Parameters'), findsOneWidget);
     });
 
-    testWidgets('changes password parameters and saves them',
-        (WidgetTester tester) async {
+    testWidgets('changes password parameters and saves them', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const MyApp());
 
       // Wait for the app to initialize
@@ -49,8 +51,9 @@ void main() {
       expect(find.text('Passgen'), findsOneWidget);
     });
 
-    testWidgets('changes separator character in settings',
-        (WidgetTester tester) async {
+    testWidgets('changes separator character in settings', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const MyApp());
 
       // Wait for the app to initialize

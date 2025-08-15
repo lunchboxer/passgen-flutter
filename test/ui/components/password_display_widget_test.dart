@@ -9,10 +9,7 @@ void main() {
     testWidgets('renders password correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: PasswordDisplayWidget(
-            password: testPassword,
-            onCopy: () {},
-          ),
+          home: PasswordDisplayWidget(password: testPassword, onCopy: () {}),
         ),
       );
 
@@ -22,18 +19,16 @@ void main() {
     testWidgets('shows copy button', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: PasswordDisplayWidget(
-            password: testPassword,
-            onCopy: () {},
-          ),
+          home: PasswordDisplayWidget(password: testPassword, onCopy: () {}),
         ),
       );
 
       expect(find.byIcon(Icons.copy), findsOneWidget);
     });
 
-    testWidgets('calls onCopy callback when copy button is pressed',
-        (WidgetTester tester) async {
+    testWidgets('calls onCopy callback when copy button is pressed', (
+      WidgetTester tester,
+    ) async {
       bool copyCalled = false;
       await tester.pumpWidget(
         MaterialApp(
@@ -48,19 +43,17 @@ void main() {
 
       await tester.tap(find.byIcon(Icons.copy));
       expect(copyCalled, isTrue);
-      
+
       // Advance the timer to complete the test
       await tester.pumpAndSettle();
     });
 
-    testWidgets('shows placeholder when password is empty',
-        (WidgetTester tester) async {
+    testWidgets('shows placeholder when password is empty', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: PasswordDisplayWidget(
-            password: '',
-            onCopy: () {},
-          ),
+          home: PasswordDisplayWidget(password: '', onCopy: () {}),
         ),
       );
 

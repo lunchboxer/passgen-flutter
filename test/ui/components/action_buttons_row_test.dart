@@ -4,14 +4,12 @@ import 'package:passgen/ui/components/action_buttons_row.dart';
 
 void main() {
   group('ActionButtonsRow', () {
-    testWidgets('renders both buttons with correct icons and text',
-        (WidgetTester tester) async {
+    testWidgets('renders both buttons with correct icons and text', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: ActionButtonsRow(
-            onRegenerate: () {},
-            onSettings: () {},
-          ),
+          home: ActionButtonsRow(onRegenerate: () {}, onSettings: () {}),
         ),
       );
 
@@ -24,26 +22,29 @@ void main() {
       expect(find.byIcon(Icons.settings), findsOneWidget);
     });
 
-    testWidgets('calls onRegenerate callback when regenerate button is pressed',
-        (WidgetTester tester) async {
-      bool regenerateCalled = false;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: ActionButtonsRow(
-            onRegenerate: () {
-              regenerateCalled = true;
-            },
-            onSettings: () {},
+    testWidgets(
+      'calls onRegenerate callback when regenerate button is pressed',
+      (WidgetTester tester) async {
+        bool regenerateCalled = false;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: ActionButtonsRow(
+              onRegenerate: () {
+                regenerateCalled = true;
+              },
+              onSettings: () {},
+            ),
           ),
-        ),
-      );
+        );
 
-      await tester.tap(find.text('Regenerate'));
-      expect(regenerateCalled, isTrue);
-    });
+        await tester.tap(find.text('Regenerate'));
+        expect(regenerateCalled, isTrue);
+      },
+    );
 
-    testWidgets('calls onSettings callback when settings button is pressed',
-        (WidgetTester tester) async {
+    testWidgets('calls onSettings callback when settings button is pressed', (
+      WidgetTester tester,
+    ) async {
       bool settingsCalled = false;
       await tester.pumpWidget(
         MaterialApp(

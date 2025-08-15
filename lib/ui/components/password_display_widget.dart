@@ -29,7 +29,7 @@ class _PasswordDisplayWidgetState extends State<PasswordDisplayWidget> {
     setState(() {
       _showCopiedMessage = true;
     });
-    
+
     // Hide the copied message after the specified duration
     Future.delayed(_messageDuration, () {
       if (mounted) {
@@ -47,7 +47,7 @@ class _PasswordDisplayWidgetState extends State<PasswordDisplayWidget> {
     final textFontSize = isLargeScreen ? 22.0 : 18.0;
     final containerPadding = isLargeScreen ? 20.0 : 16.0;
     final containerMargin = isLargeScreen ? 20.0 : 16.0;
-    
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

@@ -54,17 +54,15 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Logger.debug('Building MainScreen widget');
-    
+
     return Consumer<PasswordGeneratorModel>(
       builder: (context, model, child) {
         if (!model.isInitialized) {
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
-        
+
         return Scaffold(
           appBar: AppBar(
             title: const Text('Passgen'),
@@ -73,8 +71,9 @@ class MainScreen extends StatelessWidget {
           body: LayoutBuilder(
             builder: (context, constraints) {
               final mediaQuery = MediaQuery.of(context);
-              final isLargeScreen = mediaQuery.size.shortestSide >= 500; // ~5 inch diagonal
-              
+              final isLargeScreen =
+                  mediaQuery.size.shortestSide >= 500; // ~5 inch diagonal
+
               // For larger screens, we can use a more spacious layout
               if (isLargeScreen) {
                 return SingleChildScrollView(
@@ -83,12 +82,14 @@ class MainScreen extends StatelessWidget {
                       const SizedBox(height: 24),
                       PasswordDisplayWidget(
                         password: model.currentPassword,
-                        onCopy: () => _copyToClipboard(context, model.currentPassword),
+                        onCopy: () =>
+                            _copyToClipboard(context, model.currentPassword),
                       ),
                       const SizedBox(height: 24),
                       ParameterControlsPanel(
                         params: model.currentParams,
-                        onParamsChanged: (newParams) => model.updateParams(newParams),
+                        onParamsChanged: (newParams) =>
+                            model.updateParams(newParams),
                       ),
                       const SizedBox(height: 24),
                       ActionButtonsRow(
@@ -99,7 +100,7 @@ class MainScreen extends StatelessWidget {
                     ],
                   ),
                 );
-              } 
+              }
               // For smaller screens, we optimize space usage
               else {
                 return SingleChildScrollView(
@@ -108,11 +109,13 @@ class MainScreen extends StatelessWidget {
                       const SizedBox(height: 16),
                       PasswordDisplayWidget(
                         password: model.currentPassword,
-                        onCopy: () => _copyToClipboard(context, model.currentPassword),
+                        onCopy: () =>
+                            _copyToClipboard(context, model.currentPassword),
                       ),
                       ParameterControlsPanel(
                         params: model.currentParams,
-                        onParamsChanged: (newParams) => model.updateParams(newParams),
+                        onParamsChanged: (newParams) =>
+                            model.updateParams(newParams),
                       ),
                       ActionButtonsRow(
                         onRegenerate: model.regeneratePassword,
@@ -129,14 +132,14 @@ class MainScreen extends StatelessWidget {
       },
     );
   }
-  
+
   /// Copies the given [password] to the clipboard.
   ///
   /// Shows a snackbar with success or error message.
   void _copyToClipboard(BuildContext context, String password) async {
     try {
       await ClipboardService.copyToClipboard(password);
-      
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Password copied to clipboard')),
@@ -151,7 +154,7 @@ class MainScreen extends StatelessWidget {
       }
     }
   }
-  
+
   /// Navigates to the settings screen.
   ///
   /// Passes the current parameters and a callback to save new parameters.

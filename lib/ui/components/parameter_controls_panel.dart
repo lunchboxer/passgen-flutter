@@ -51,7 +51,7 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
       fontWeight: FontWeight.bold,
     );
     final spacing = isLargeScreen ? 20.0 : 16.0;
-    
+
     return Card(
       margin: EdgeInsets.all(isLargeScreen ? 20 : 16),
       child: Padding(
@@ -59,10 +59,7 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Password Parameters',
-              style: titleStyle,
-            ),
+            Text('Password Parameters', style: titleStyle),
             SizedBox(height: spacing),
             // Word Count Slider
             Row(

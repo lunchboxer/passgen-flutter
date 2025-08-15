@@ -19,7 +19,7 @@ class StringOperationBenchmark extends BenchmarkBase {
       final word1 = _words[_random.nextInt(_words.length)];
       final word2 = _words[_random.nextInt(_words.length)];
       final word3 = _words[_random.nextInt(_words.length)];
-      
+
       // Join words with a separator and capitalize
       result = '${word1}_${word2}_${word3}'.toUpperCase();
     }

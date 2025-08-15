@@ -4,8 +4,9 @@ import 'package:passgen/main.dart';
 
 void main() {
   group('Password Generation Workflow', () {
-    testWidgets('generates a password when the app starts',
-        (WidgetTester tester) async {
+    testWidgets('generates a password when the app starts', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const MyApp());
 
       // Wait for the app to initialize
@@ -16,13 +17,15 @@ void main() {
       expect(passwordFinder, findsOneWidget);
 
       // Get the text of the password
-      final passwordText = (passwordFinder.evaluate().single.widget as Text).data;
+      final passwordText =
+          (passwordFinder.evaluate().single.widget as Text).data;
       expect(passwordText, isNotNull);
       expect(passwordText, isNotEmpty);
     });
 
-    testWidgets('regenerates password when Regenerate button is pressed',
-        (WidgetTester tester) async {
+    testWidgets('regenerates password when Regenerate button is pressed', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const MyApp());
 
       // Wait for the app to initialize
@@ -48,15 +51,18 @@ void main() {
       // Note: There's a small chance the password could be the same, but it's very unlikely
     });
 
-    testWidgets('copies password to clipboard when Copy button is pressed',
-        (WidgetTester tester) async {
+    testWidgets('copies password to clipboard when Copy button is pressed', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const MyApp());
 
       // Wait for the app to initialize
       await tester.pumpAndSettle(const Duration(seconds: 5));
 
       // Find and tap the Copy button
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Copy to Clipboard'));
+      await tester.tap(
+        find.widgetWithText(ElevatedButton, 'Copy to Clipboard'),
+      );
       await tester.pumpAndSettle(const Duration(seconds: 2));
 
       // Check that the snackbar with "Password copied to clipboard" message is displayed

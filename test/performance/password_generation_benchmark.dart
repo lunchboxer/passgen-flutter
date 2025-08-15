@@ -9,8 +9,8 @@ class PasswordGenerationBenchmark extends BenchmarkBase {
   final PasswordParams _params;
 
   PasswordGenerationBenchmark()
-      : _params = PasswordParams(),
-        super('Password Generation');
+    : _params = PasswordParams(),
+      super('Password Generation');
 
   static void main() {
     PasswordGenerationBenchmark().report();

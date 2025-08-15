@@ -62,10 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: const Text('Settings'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: _saveSettings,
-          ),
+          IconButton(icon: const Icon(Icons.save), onPressed: _saveSettings),
         ],
       ),
       body: Padding(
@@ -75,10 +72,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             const Text(
               'Default Password Parameters',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             if (_validationError != null)
               Container(
