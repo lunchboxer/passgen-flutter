@@ -1,0 +1,151 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:passgen/core/logger.dart';
+import 'package:passgen/core/password_generator_model.dart';
+import 'package:passgen/core/clipboard_service.dart';
+import 'package:passgen/ui/components/password_display_widget.dart';
+import 'package:passgen/ui/components/parameter_controls_panel.dart';
+import 'package:passgen/ui/components/action_buttons_row.dart';
+import 'package:passgen/ui/settings_screen.dart';
+
+void main() {
+  // Initialize logging
+  Logger.info('Starting Passgen application');
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Logger.debug('Building MyApp widget');
+    return ChangeNotifierProvider(
+      create: (context) => PasswordGeneratorModel()..initialize(),
+      child: MaterialApp(
+        title: 'Passgen',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MainScreen(),
+      ),
+    );
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Logger.debug('Building MainScreen widget');
+    
+    return Consumer<PasswordGeneratorModel>(
+      builder: (context, model, child) {
+        if (!model.isInitialized) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Passgen'),
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          ),
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              final mediaQuery = MediaQuery.of(context);
+              final isLargeScreen = mediaQuery.size.shortestSide >= 500; // ~5 inch diagonal
+              
+              // For larger screens, we can use a more spacious layout
+              if (isLargeScreen) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 24),
+                      PasswordDisplayWidget(
+                        password: model.currentPassword,
+                        onCopy: () => _copyToClipboard(context, model.currentPassword),
+                      ),
+                      const SizedBox(height: 24),
+                      ParameterControlsPanel(
+                        params: model.currentParams,
+                        onParamsChanged: (newParams) => model.updateParams(newParams),
+                      ),
+                      const SizedBox(height: 24),
+                      ActionButtonsRow(
+                        onRegenerate: model.regeneratePassword,
+                        onSettings: () => _navigateToSettings(context, model),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                );
+              } 
+              // For smaller screens, we optimize space usage
+              else {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      PasswordDisplayWidget(
+                        password: model.currentPassword,
+                        onCopy: () => _copyToClipboard(context, model.currentPassword),
+                      ),
+                      ParameterControlsPanel(
+                        params: model.currentParams,
+                        onParamsChanged: (newParams) => model.updateParams(newParams),
+                      ),
+                      ActionButtonsRow(
+                        onRegenerate: model.regeneratePassword,
+                        onSettings: () => _navigateToSettings(context, model),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
+                );
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
+  
+  void _copyToClipboard(BuildContext context, String password) async {
+    try {
+      await ClipboardService.copyToClipboard(password);
+      
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Password copied to clipboard')),
+        );
+      }
+    } catch (e) {
+      Logger.error('Failed to copy password to clipboard: $e');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to copy password to clipboard')),
+        );
+      }
+    }
+  }
+  
+  void _navigateToSettings(BuildContext context, PasswordGeneratorModel model) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => SettingsScreen(
+          currentParams: model.currentParams,
+          onSave: (newParams) {
+            model.updateParams(newParams);
+            model.saveSettings(newParams);
+          },
+        ),
+      ),
+    );
+  }
+}
