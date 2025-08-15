@@ -12,52 +12,40 @@ The CI pipeline is configured in `.github/workflows/ci.yml`. This file defines a
 
 ## Pipeline Structure
 
-The CI pipeline consists of a single job called "build" that runs on Ubuntu virtual machines. The job performs the following steps:
+The CI pipeline consists of multiple jobs that can run sequentially or in parallel:
 
-### 1. Checkout Code
+### 1. Analyze Job
 
-The pipeline first checks out the code using the `actions/checkout@v4` action.
+This job checks code formatting and runs static analysis:
+- Verifies Flutter installation
+- Checks for any formatting issues using `dart format`
+- Statically analyzes the Dart code for any errors using `dart analyze`
 
-### 2. Setup Java
+### 2. Test Job
 
-Java 17 (Temurin distribution) is set up using the `actions/setup-java@v4` action. This is required for Android builds.
+This job runs all unit, widget, and integration tests:
+- Runs widget tests
+- Runs core component tests
+- Runs model tests
+- Runs UI component tests
+- Runs UI screen tests
+- Runs integration tests
 
-### 3. Setup Flutter SDK
+### 3. Performance Job
 
-Flutter SDK version 3.27.0 (stable channel) is set up using the `subosito/flutter-action@v2` action.
+This job runs performance benchmarks:
+- Runs all performance tests in the `test/performance` directory
 
-### 4. Verify Flutter Installation
+### 4. Build Job
 
-The pipeline runs `flutter doctor -v` to verify that Flutter is correctly installed and configured.
+This job builds the application for different platforms:
+- Builds Android APK (debug build)
+- Builds web version
 
-### 5. Install Dependencies
+### 5. Security Job
 
-The pipeline runs `flutter pub get` to install all project dependencies.
-
-### 6. Verify Code Formatting
-
-The pipeline checks that the code is properly formatted by running `dart format --output=none --set-exit-if-changed .`. This ensures that all code follows the standard Dart formatting guidelines.
-
-### 7. Analyze Project Source
-
-The pipeline statically analyzes the Dart code for any errors or warnings by running `dart analyze`. This helps catch potential issues early in the development process.
-
-### 8. Run Tests
-
-The pipeline runs various test suites:
-- Widget tests
-- Core component tests
-- Model tests
-- UI component tests
-- UI screen tests
-- Integration tests
-- Performance tests
-
-### 9. Build Artifacts
-
-The pipeline builds the application for different platforms:
-- Android APK (debug build)
-- Web version
+This job runs security-related tests:
+- Runs word list integrity verification tests
 
 ## Trigger Events
 
@@ -73,13 +61,17 @@ All jobs run on Ubuntu virtual machines with the following setup:
 - Flutter 3.27.0 (stable channel)
 - Dart SDK version matching Flutter
 
+## Dependencies
+
+The pipeline automatically installs all project dependencies using `flutter pub get`.
+
 ## Customization
 
 The CI pipeline can be customized by modifying `.github/workflows/ci.yml`:
 - To change Flutter version: Update the `flutter-version` in the Flutter setup step
 - To add new jobs: Add new job definitions following the existing pattern
 - To modify triggers: Update the `on` section at the beginning of the file
-- To add/remove test suites: Modify the test steps in the build job
+- To add/remove test suites: Modify the test steps in the test job
 
 ## Secrets and Environment Variables
 
