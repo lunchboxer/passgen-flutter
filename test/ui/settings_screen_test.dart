@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:passgen/models/password_params.dart';
 import 'package:passgen/ui/settings_screen.dart';
-import '../mock_theme_provider.dart';
 
 void main() {
   group('SettingsScreen', () {
@@ -13,8 +12,6 @@ void main() {
     testWidgets('renders all controls with correct initial values', (
       tester,
     ) async {
-      final mockThemeProvider = MockThemeProvider();
-
       await tester.pumpWidget(
         MaterialApp(
           home: Builder(

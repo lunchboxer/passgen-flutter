@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:passgen/core/settings_manager.dart';
-import 'package:passgen/core/theme_manager.dart';
 import 'package:passgen/models/password_params.dart';
 import 'package:passgen/ui/components/action_buttons_row.dart';
 import 'package:passgen/ui/components/parameter_controls_panel.dart';
@@ -11,14 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   group('Theme-aware Components', () {
-    late ThemeManager themeManager;
-
     setUp(() async {
       // Clear any existing preferences
       SharedPreferences.setMockInitialValues({});
       final settingsManager = SettingsManager();
       await settingsManager.initialize();
-      themeManager = ThemeManager(settingsManager);
     });
 
     group('PasswordDisplayWidget', () {
