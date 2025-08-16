@@ -56,14 +56,10 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
     );
     final spacing = isLargeScreen ? 20.0 : 16.0;
 
-    return Card(
-      margin: EdgeInsets.all(isLargeScreen ? 20 : 16),
-      // Adapt card color to theme
-      color: theme.brightness == Brightness.dark
-          ? theme.cardColor
-          : null, // Use default card color for light theme
-      child: Padding(
-        padding: EdgeInsets.all(isLargeScreen ? 20 : 16),
+    return Padding(
+      padding: EdgeInsets.all(isLargeScreen ? 20 : 16),
+      child: Material(
+        type: MaterialType.transparency,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
