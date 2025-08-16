@@ -112,65 +112,65 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               const SizedBox(height: 16),
               // Theme Selection
-            const Text(
-              'Theme:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Column(
-              children: [
-                ListTile(
-                  title: const Text('Light'),
-                  leading: Radio<AppTheme>(
-                    value: AppTheme.light,
-                    groupValue: _selectedTheme,
-                    onChanged: (value) {
+              const Text(
+                'Theme:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Column(
+                children: [
+                  ListTile(
+                    title: const Text('Light'),
+                    leading: Radio<AppTheme>(
+                      value: AppTheme.light,
+                      groupValue: _selectedTheme,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedTheme = value ?? _selectedTheme;
+                        });
+                      },
+                    ),
+                    onTap: () {
                       setState(() {
-                        _selectedTheme = value ?? _selectedTheme;
+                        _selectedTheme = AppTheme.light;
                       });
                     },
                   ),
-                  onTap: () {
-                    setState(() {
-                      _selectedTheme = AppTheme.light;
-                    });
-                  },
-                ),
-                ListTile(
-                  title: const Text('Dark'),
-                  leading: Radio<AppTheme>(
-                    value: AppTheme.dark,
-                    groupValue: _selectedTheme,
-                    onChanged: (value) {
+                  ListTile(
+                    title: const Text('Dark'),
+                    leading: Radio<AppTheme>(
+                      value: AppTheme.dark,
+                      groupValue: _selectedTheme,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedTheme = value ?? _selectedTheme;
+                        });
+                      },
+                    ),
+                    onTap: () {
                       setState(() {
-                        _selectedTheme = value ?? _selectedTheme;
+                        _selectedTheme = AppTheme.dark;
                       });
                     },
                   ),
-                  onTap: () {
-                    setState(() {
-                      _selectedTheme = AppTheme.dark;
-                    });
-                  },
-                ),
-                ListTile(
-                  title: const Text('Black'),
-                  leading: Radio<AppTheme>(
-                    value: AppTheme.black,
-                    groupValue: _selectedTheme,
-                    onChanged: (value) {
+                  ListTile(
+                    title: const Text('Black'),
+                    leading: Radio<AppTheme>(
+                      value: AppTheme.black,
+                      groupValue: _selectedTheme,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedTheme = value ?? _selectedTheme;
+                        });
+                      },
+                    ),
+                    onTap: () {
                       setState(() {
-                        _selectedTheme = value ?? _selectedTheme;
+                        _selectedTheme = AppTheme.black;
                       });
                     },
                   ),
-                  onTap: () {
-                    setState(() {
-                      _selectedTheme = AppTheme.black;
-                    });
-                  },
-                ),
-              ],
-            ),
+                ],
+              ),
               const SizedBox(height: 16),
               const Divider(),
               const SizedBox(height: 16),

@@ -19,9 +19,7 @@ class MockThemeManager implements IThemeManager {
       case AppTheme.dark:
         return ThemeData.dark();
       case AppTheme.black:
-        return ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: Colors.black,
-        );
+        return ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black);
       default:
         // Handle AppTheme.light and any other cases
         return ThemeData.light();

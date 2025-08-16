@@ -47,14 +47,21 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLargeScreen = mediaQuery.size.shortestSide >= 500;
+    final theme = Theme.of(context);
     final titleStyle = TextStyle(
       fontSize: isLargeScreen ? 20 : 18,
       fontWeight: FontWeight.bold,
+      // Adapt title color to theme
+      color: theme.textTheme.titleLarge?.color,
     );
     final spacing = isLargeScreen ? 20.0 : 16.0;
 
     return Card(
       margin: EdgeInsets.all(isLargeScreen ? 20 : 16),
+      // Adapt card color to theme
+      color: theme.brightness == Brightness.dark 
+          ? theme.cardColor 
+          : null, // Use default card color for light theme
       child: Padding(
         padding: EdgeInsets.all(isLargeScreen ? 20 : 16),
         child: Column(
@@ -65,8 +72,16 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
             // Word Count Slider
             Row(
               children: [
-                const Text('Word Count: '),
-                Text('${widget.params.wordCount}'),
+                Text(
+                  'Word Count: ',
+                  // Adapt text color to theme
+                  style: TextStyle(color: theme.textTheme.bodyMedium?.color),
+                ),
+                Text(
+                  '${widget.params.wordCount}',
+                  // Adapt text color to theme
+                  style: TextStyle(color: theme.textTheme.bodyMedium?.color),
+                ),
               ],
             ),
             Slider(
@@ -78,35 +93,71 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
               onChanged: (value) {
                 _updateParams(widget.params.copyWith(wordCount: value.toInt()));
               },
+              // Adapt slider colors to theme
+              activeColor: theme.colorScheme.primary,
+              inactiveColor: theme.brightness == Brightness.dark
+                  ? Colors.grey[700]
+                  : Colors.grey[300],
             ),
             SizedBox(height: spacing),
             // Capitalize Words
             SwitchListTile(
-              title: const Text('Capitalize Words'),
+              title: Text(
+                'Capitalize Words',
+                // Adapt text color to theme
+                style: TextStyle(color: theme.textTheme.bodyLarge?.color),
+              ),
               value: widget.params.capitalize,
               onChanged: (value) {
                 _updateParams(widget.params.copyWith(capitalize: value));
               },
+              // Adapt switch colors to theme
+              activeColor: theme.colorScheme.primary,
+              inactiveThumbColor: theme.brightness == Brightness.dark
+                  ? Colors.grey[400]
+                  : Colors.grey[400],
             ),
             // Append Number
             SwitchListTile(
-              title: const Text('Append Number'),
+              title: Text(
+                'Append Number',
+                // Adapt text color to theme
+                style: TextStyle(color: theme.textTheme.bodyLarge?.color),
+              ),
               value: widget.params.appendNumber,
               onChanged: (value) {
                 _updateParams(widget.params.copyWith(appendNumber: value));
               },
+              // Adapt switch colors to theme
+              activeColor: theme.colorScheme.primary,
+              inactiveThumbColor: theme.brightness == Brightness.dark
+                  ? Colors.grey[400]
+                  : Colors.grey[400],
             ),
             // Append Symbol
             SwitchListTile(
-              title: const Text('Append Symbol'),
+              title: Text(
+                'Append Symbol',
+                // Adapt text color to theme
+                style: TextStyle(color: theme.textTheme.bodyLarge?.color),
+              ),
               value: widget.params.appendSymbol,
               onChanged: (value) {
                 _updateParams(widget.params.copyWith(appendSymbol: value));
               },
+              // Adapt switch colors to theme
+              activeColor: theme.colorScheme.primary,
+              inactiveThumbColor: theme.brightness == Brightness.dark
+                  ? Colors.grey[400]
+                  : Colors.grey[400],
             ),
             SizedBox(height: spacing),
             // Separator Input
-            const Text('Separator:'),
+            Text(
+              'Separator:',
+              // Adapt text color to theme
+              style: TextStyle(color: theme.textTheme.bodyMedium?.color),
+            ),
             TextField(
               controller: _separatorController,
               maxLength: 1,
@@ -115,10 +166,31 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
                   _updateParams(widget.params.copyWith(separator: value));
                 }
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Enter separator',
                 helperText: 'Single character only',
+                // Adapt input decoration colors to theme
+                filled: true,
+                fillColor: theme.brightness == Brightness.dark
+                    ? theme.cardColor
+                    : Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4.0),
+                  borderSide: BorderSide(
+                    color: theme.brightness == Brightness.dark
+                        ? Colors.grey[700]!
+                        : Colors.grey,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4.0),
+                  borderSide: BorderSide(
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
               ),
+              // Adapt text color to theme
+              style: TextStyle(color: theme.textTheme.bodyLarge?.color),
             ),
           ],
         ),
