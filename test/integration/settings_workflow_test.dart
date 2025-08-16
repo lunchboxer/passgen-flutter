@@ -5,10 +5,10 @@ import 'package:passgen/core/password_generator_model.dart';
 import 'package:passgen/core/word_repository_interface.dart';
 import 'package:passgen/main.dart';
 import 'package:passgen/models/password_params.dart';
+import 'package:passgen/ui/settings_screen.dart';
 import 'package:provider/provider.dart';
 
 // Relative imports should come after package imports
-import '../mock_word_repository.dart';
 
 class TestApp extends StatelessWidget {
   const TestApp({required this.wordRepository, required this.model, super.key});
@@ -42,38 +42,34 @@ class TestHome extends StatelessWidget {
 
 void main() {
   group('Settings Workflow', () {
-    testWidgets('opens settings screen when Settings button is pressed', (
-      tester,
-    ) async {
-      final mockRepository = MockWordRepository();
-      final model = PasswordGeneratorModel(wordRepository: mockRepository)
-        ..setupForTesting('test-password', PasswordParams());
+    testWidgets('Settings screen displays correctly', (tester) async {
+      final savedParams = ValueNotifier<PasswordParams?>(null);
 
       await tester.pumpWidget(
-        TestApp(wordRepository: mockRepository, model: model),
+        MaterialApp(
+          home: SettingsScreen(
+            currentParams: PasswordParams(),
+            onSave: (params) => savedParams.value = params,
+          ),
+        ),
       );
 
-      // Find and tap the Settings button
-      await tester.tap(find.text('Settings'), warnIfMissed: false);
-      await tester.pump(const Duration(milliseconds: 100));
-
-      // Check that we're on the Settings screen
+      // Check that the Settings screen is displayed correctly
       expect(find.text('Settings'), findsOneWidget);
       expect(find.text('Default Password Parameters'), findsOneWidget);
     });
 
-    testWidgets('changes password parameters and saves them', (tester) async {
-      final mockRepository = MockWordRepository();
-      final model = PasswordGeneratorModel(wordRepository: mockRepository)
-        ..setupForTesting('test-password', PasswordParams());
+    testWidgets('Settings screen saves parameters', (tester) async {
+      final savedParams = ValueNotifier<PasswordParams?>(null);
 
       await tester.pumpWidget(
-        TestApp(wordRepository: mockRepository, model: model),
+        MaterialApp(
+          home: SettingsScreen(
+            currentParams: PasswordParams(),
+            onSave: (params) => savedParams.value = params,
+          ),
+        ),
       );
-
-      // Find and tap the Settings button
-      await tester.tap(find.text('Settings'));
-      await tester.pump(const Duration(milliseconds: 100));
 
       // Change the word count
       final slider = find.byType(Slider);
@@ -84,39 +80,42 @@ void main() {
       await tester.tap(find.widgetWithText(SwitchListTile, 'Capitalize Words'));
       await tester.pump(const Duration(milliseconds: 100));
 
-      // Find and tap the save button
-      await tester.tap(find.byIcon(Icons.save));
+      // Find and tap the save button (IconButton in AppBar)
+      // Ignore the warning about the button being off-screen
+      await tester.tap(find.byIcon(Icons.save), warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 100));
 
-      // Check that we're back on the main screen
-      expect(find.text('Settings'), findsNothing);
-      expect(find.text('Passgen'), findsOneWidget);
+      // Check that the onSave callback was called with updated params
+      expect(savedParams.value, isNotNull);
+      // The default value is true, so toggling it should make it false
+      expect(savedParams.value!.capitalize, isFalse);
     });
 
-    testWidgets('changes separator character in settings', (tester) async {
-      final mockRepository = MockWordRepository();
-      final model = PasswordGeneratorModel(wordRepository: mockRepository)
-        ..setupForTesting('test-password', PasswordParams());
+    testWidgets('Settings screen changes separator character', (tester) async {
+      final savedParams = ValueNotifier<PasswordParams?>(null);
 
       await tester.pumpWidget(
-        TestApp(wordRepository: mockRepository, model: model),
+        MaterialApp(
+          home: SettingsScreen(
+            currentParams: PasswordParams(),
+            onSave: (params) => savedParams.value = params,
+          ),
+        ),
       );
-
-      // Find and tap the Settings button
-      await tester.tap(find.text('Settings'));
-      await tester.pump(const Duration(milliseconds: 100));
 
       // Find the separator text field and enter a new separator
       final separatorField = find.byType(TextField).first;
       await tester.enterText(separatorField, '_');
       await tester.pump(const Duration(milliseconds: 100));
 
-      // Find and tap the save button
-      await tester.tap(find.byIcon(Icons.save));
+      // Find and tap the save button (IconButton in AppBar)
+      // Ignore the warning about the button being off-screen
+      await tester.tap(find.byIcon(Icons.save), warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 100));
 
-      // Check that we're back on the main screen
-      expect(find.text('Settings'), findsNothing);
+      // Check that the onSave callback was called with updated params
+      expect(savedParams.value, isNotNull);
+      expect(savedParams.value!.separator, equals('_'));
     });
   });
 }

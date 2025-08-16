@@ -38,9 +38,10 @@ class TestHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-    create: (context) => PasswordGeneratorModel(wordRepository: wordRepository)
-      ..setupForTesting('test-password', PasswordParams()),
-      child: const MainScreen(),
+    create: (context) =>
+        PasswordGeneratorModel(wordRepository: wordRepository)
+          ..setupForTesting('test-password', PasswordParams()),
+    child: const MainScreen(),
   );
 }
 
