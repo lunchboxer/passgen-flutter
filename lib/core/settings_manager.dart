@@ -16,6 +16,7 @@ class SettingsManager {
   static const String _appendNumberKey = 'appendNumber';
   static const String _appendSymbolKey = 'appendSymbol';
   static const String _lengthConstraintKey = 'lengthConstraint';
+  static const String _themeKey = 'theme';
 
   // Default values
   static const int _defaultWordCount = 3;
@@ -23,6 +24,7 @@ class SettingsManager {
   static const String _defaultSeparator = '-';
   static const bool _defaultAppendNumber = false;
   static const bool _defaultAppendSymbol = false;
+  static const String _defaultTheme = 'light';
 
   late SharedPreferences _prefs;
 
@@ -86,5 +88,17 @@ class SettingsManager {
     await _prefs.setBool(_appendNumberKey, _defaultAppendNumber);
     await _prefs.setBool(_appendSymbolKey, _defaultAppendSymbol);
     await _prefs.remove(_lengthConstraintKey);
+  }
+
+  /// Get a setting value by key with an optional default value.
+  ///
+  /// If the setting is not found, the [defaultValue] is returned.
+  String getSetting(String key, [String defaultValue = '']) {
+    return _prefs.getString(key) ?? defaultValue;
+  }
+
+  /// Set a setting value by key.
+  Future<void> setSetting(String key, String value) async {
+    await _prefs.setString(key, value);
   }
 }

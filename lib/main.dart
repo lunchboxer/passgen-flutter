@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import '../core/clipboard_service.dart';
 import '../core/logger.dart';
 import '../core/password_generator_model.dart';
+import '../core/settings_manager.dart';
+import '../core/theme_manager.dart';
+import '../models/app_theme.dart';
 import '../ui/components/action_buttons_row.dart';
 import '../ui/components/parameter_controls_panel.dart';
 import '../ui/components/password_display_widget.dart';
@@ -22,22 +25,54 @@ void main() {
 /// The root widget of the Passgen application.
 ///
 /// This widget sets up the app with a Material theme and the main screen.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   /// Creates a MyApp widget.
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late SettingsManager _settingsManager;
+  late ThemeManager _themeManager;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeTheme();
+  }
+
+  /// Initialize the theme manager
+  Future<void> _initializeTheme() async {
+    _settingsManager = SettingsManager();
+    await _settingsManager.initialize();
+    _themeManager = ThemeManager(_settingsManager);
+    setState(() {}); // Rebuild with theme manager
+  }
+
+  @override
   Widget build(BuildContext context) {
     Logger.debug('Building MyApp widget');
+    
+    if (_themeManager == null) {
+      // Show loading screen while initializing
+      return MaterialApp(
+        title: 'Passgen',
+        home: Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
+
     return ChangeNotifierProvider(
       create: (context) => PasswordGeneratorModel()..initialize(),
       child: MaterialApp(
         title: 'Passgen',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const MainScreen(),
+        theme: _themeManager.getThemeData(),
+        home: MainScreen(themeManager: _themeManager),
       ),
     );
   }
@@ -50,8 +85,10 @@ class MyApp extends StatelessWidget {
 /// - Parameter controls
 /// - Action buttons (regenerate, settings)
 class MainScreen extends StatelessWidget {
+  final ThemeManager? themeManager;
+
   /// Creates a MainScreen widget.
-  const MainScreen({super.key});
+  const MainScreen({super.key, this.themeManager});
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +106,13 @@ class MainScreen extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Passgen'),
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            actions: [
+              if (themeManager != null)
+                IconButton(
+                  icon: Icon(Icons.brightness_6),
+                  onPressed: () => _showThemeSelection(context),
+                ),
+            ],
           ),
           body: LayoutBuilder(
             builder: (context, constraints) {
@@ -172,6 +216,56 @@ class MainScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  /// Shows a dialog for theme selection
+  void _showThemeSelection(BuildContext context) {
+    if (themeManager == null) return;
+
+    final currentTheme = themeManager!.getCurrentTheme();
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text('Light'),
+                trailing: currentTheme == AppTheme.light
+                    ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+                    : null,
+                onTap: () {
+                  themeManager!.setTheme(AppTheme.light);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Dark'),
+                trailing: currentTheme == AppTheme.dark
+                    ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+                    : null,
+                onTap: () {
+                  themeManager!.setTheme(AppTheme.dark);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Black'),
+                trailing: currentTheme == AppTheme.black
+                    ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+                    : null,
+                onTap: () {
+                  themeManager!.setTheme(AppTheme.black);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
