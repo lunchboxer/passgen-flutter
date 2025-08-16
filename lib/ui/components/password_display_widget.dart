@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 class PasswordDisplayWidget extends StatefulWidget {
   /// Creates a PasswordDisplayWidget widget.
   const PasswordDisplayWidget({
-    super.key,
-    required this.password,
-    required this.onCopy,
+    required this.password, required this.onCopy, super.key,
   });
 
   final String password;

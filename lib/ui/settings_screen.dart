@@ -5,9 +5,7 @@ import '../../models/password_params.dart';
 class SettingsScreen extends StatefulWidget {
   /// Creates a SettingsScreen widget.
   const SettingsScreen({
-    super.key,
-    required this.currentParams,
-    required this.onSave,
+    required this.currentParams, required this.onSave, super.key,
   });
 
   final PasswordParams currentParams;
@@ -180,7 +178,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onChanged: (value) {
                 if (value.isEmpty) {
                   setState(() {
-                    _params = _params.copyWith(lengthConstraint: null);
+                    _params = _params.copyWith();
                   });
                 } else {
                   final parsed = int.tryParse(value);

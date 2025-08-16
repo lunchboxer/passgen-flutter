@@ -171,6 +171,6 @@ class MainScreen extends StatelessWidget {
           },
         ),
       ),
-    )..then((value) => null); // Using cascade to avoid duplication warning
+    );
   }
 }

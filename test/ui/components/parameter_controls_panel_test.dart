@@ -1,23 +1,19 @@
 // Sort directives
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/models/password_params.dart';
-import '../../../lib/ui/components/parameter_controls_panel.dart';
+import 'package:passgen/models/password_params.dart';
+import 'package:passgen/ui/components/parameter_controls_panel.dart';
 
 void main() {
   group('ParameterControlsPanel', () {
     // Remove redundant argument values
     final testParams = PasswordParams(
-      wordCount: 3,
-      capitalize: true,
-      separator: '-',
-      appendNumber: false,
-      appendSymbol: false,
+      
     );
 
     testWidgets(
       'renders all controls with correct initial values',
-      (WidgetTester tester) async {
+      (tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: ParameterControlsPanel(
@@ -43,7 +39,7 @@ void main() {
 
     testWidgets(
       'updates word count when slider is moved',
-      (WidgetTester tester) async {
+      (tester) async {
         late PasswordParams updatedParams;
         await tester.pumpWidget(
           MaterialApp(
@@ -68,7 +64,7 @@ void main() {
 
     testWidgets(
       'toggles capitalize switch',
-      (WidgetTester tester) async {
+      (tester) async {
         late PasswordParams updatedParams;
         await tester.pumpWidget(
           MaterialApp(
@@ -93,7 +89,7 @@ void main() {
 
     testWidgets(
       'updates separator when text field is changed',
-      (WidgetTester tester) async {
+      (tester) async {
         late PasswordParams updatedParams;
         await tester.pumpWidget(
           MaterialApp(

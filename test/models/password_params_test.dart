@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/models/password_params.dart';
+import 'package:passgen/models/password_params.dart';
 
 void main() {
   group('PasswordParams', () {
@@ -39,7 +39,7 @@ void main() {
     });
 
     test('should validate correct parameters', () {
-      final validParams = PasswordParams(wordCount: 3, separator: '-');
+      final validParams = PasswordParams();
       expect(validParams.validate(), true);
     });
 
@@ -57,7 +57,6 @@ void main() {
 
     test('should validate with length constraint', () {
       final validParams = PasswordParams(
-        wordCount: 3,
         lengthConstraint: 12, // 3 words * 4 min chars = 12
       );
       expect(validParams.validate(), true);
@@ -65,7 +64,6 @@ void main() {
 
     test('should invalidate with insufficient length constraint', () {
       final invalidParams = PasswordParams(
-        wordCount: 3,
         lengthConstraint: 11, // Less than 3 words * 4 min chars
       );
       expect(invalidParams.validate(), false);

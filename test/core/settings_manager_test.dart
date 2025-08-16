@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:passgen/core/settings_manager.dart';
+import 'package:passgen/models/password_params.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../lib/core/settings_manager.dart';
-import '../../lib/models/password_params.dart';
 
 void main() {
   group('SettingsManager', () {
@@ -42,7 +42,7 @@ void main() {
     });
 
     test('should handle null length constraint', () async {
-      final params = PasswordParams(lengthConstraint: null);
+      final params = PasswordParams();
 
       await settingsManager.saveSettings(params);
       final loadedParams = await settingsManager.loadSettings();

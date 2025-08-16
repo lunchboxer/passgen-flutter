@@ -1,4 +1,4 @@
-import '../lib/core/word_repository_interface.dart';
+import 'package:passgen/core/word_repository_interface.dart';
 
 /// A mock implementation of IWordRepository for testing purposes.
 ///

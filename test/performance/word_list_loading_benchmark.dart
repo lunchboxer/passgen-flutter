@@ -1,10 +1,10 @@
 import 'package:benchmark_harness/benchmark_harness.dart';
-import '../../lib/core/word_repository.dart';
+import 'package:passgen/core/word_repository.dart';
 
 class WordListLoadingBenchmark extends BenchmarkBase {
-  late WordRepository _repository;
 
   WordListLoadingBenchmark() : super('Word List Loading');
+  late WordRepository _repository;
 
   static void main() {
     WordListLoadingBenchmark().report();

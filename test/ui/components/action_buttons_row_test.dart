@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/ui/components/action_buttons_row.dart';
+import 'package:passgen/ui/components/action_buttons_row.dart';
 
 void main() {
   group('ActionButtonsRow', () {

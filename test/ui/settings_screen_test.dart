@@ -1,18 +1,14 @@
 // Sort directives
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/models/password_params.dart';
-import '../../lib/ui/settings_screen.dart';
+import 'package:passgen/models/password_params.dart';
+import 'package:passgen/ui/settings_screen.dart';
 
 void main() {
   group('SettingsScreen', () {
     // Remove redundant argument values
     final testParams = PasswordParams(
-      wordCount: 3,
-      capitalize: true,
-      separator: '-',
-      appendNumber: false,
-      appendSymbol: false,
+      
     );
 
     testWidgets(

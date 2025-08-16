@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/ui/components/password_display_widget.dart';
+import 'package:passgen/ui/components/password_display_widget.dart';
 
 void main() {
   group('PasswordDisplayWidget', () {

@@ -1,12 +1,12 @@
 import 'package:benchmark_harness/benchmark_harness.dart';
-import '../../lib/core/settings_manager.dart';
-import '../../lib/models/password_params.dart';
+import 'package:passgen/core/settings_manager.dart';
+import 'package:passgen/models/password_params.dart';
 
 class SettingsManagerBenchmark extends BenchmarkBase {
-  late SettingsManager _settingsManager;
-  late PasswordParams _params;
 
   SettingsManagerBenchmark() : super('Settings Manager');
+  late SettingsManager _settingsManager;
+  late PasswordParams _params;
 
   static void main() {
     SettingsManagerBenchmark().report();

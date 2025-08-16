@@ -1,28 +1,25 @@
 // Sort imports alphabetically
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/core/password_generator_model.dart';
-import '../../lib/core/word_repository_interface.dart';
+import 'package:passgen/core/password_generator_model.dart';
+import 'package:passgen/core/word_repository_interface.dart';
 import 'package:passgen/main.dart';
-import '../../lib/models/password_params.dart';
+import 'package:passgen/models/password_params.dart';
 import 'package:provider/provider.dart';
 
 // Relative imports should come after package imports
 import '../mock_word_repository.dart';
 
 class TestApp extends StatelessWidget {
+
+  const TestApp({
+    required this.wordRepository, required this.model, super.key,
+  });
   final IWordRepository wordRepository;
   final PasswordGeneratorModel model;
 
-  const TestApp({
-    super.key,
-    required this.wordRepository,
-    required this.model,
-  });
-
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
       title: 'Passgen',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -30,26 +27,21 @@ class TestApp extends StatelessWidget {
       ),
       home: TestHome(wordRepository: wordRepository, model: model),
     );
-  }
 }
 
 class TestHome extends StatelessWidget {
+
+  const TestHome({
+    required this.wordRepository, required this.model, super.key,
+  });
   final IWordRepository wordRepository;
   final PasswordGeneratorModel model;
 
-  const TestHome({
-    super.key,
-    required this.wordRepository,
-    required this.model,
-  });
-
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
+  Widget build(BuildContext context) => ChangeNotifierProvider.value(
       value: model,
       child: const MainScreen(),
     );
-  }
 }
 
 void main() {

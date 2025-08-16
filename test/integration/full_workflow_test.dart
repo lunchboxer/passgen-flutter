@@ -1,8 +1,8 @@
 // Sort directives
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/core/password_generator_model.dart';
-import '../../lib/core/word_repository_interface.dart';
+import 'package:passgen/core/password_generator_model.dart';
+import 'package:passgen/core/word_repository_interface.dart';
 import 'package:passgen/main.dart';
 import 'package:provider/provider.dart';
 
@@ -10,16 +10,14 @@ import 'package:provider/provider.dart';
 import '../mock_word_repository.dart';
 
 class TestApp extends StatelessWidget {
-  final IWordRepository wordRepository;
 
   const TestApp({
-    super.key,
-    required this.wordRepository,
+    required this.wordRepository, super.key,
   });
+  final IWordRepository wordRepository;
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
       title: 'Passgen',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -27,32 +25,28 @@ class TestApp extends StatelessWidget {
       ),
       home: TestHome(wordRepository: wordRepository),
     );
-  }
 }
 
 class TestHome extends StatelessWidget {
-  final IWordRepository wordRepository;
 
   const TestHome({
-    super.key,
-    required this.wordRepository,
+    required this.wordRepository, super.key,
   });
+  final IWordRepository wordRepository;
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+  Widget build(BuildContext context) => ChangeNotifierProvider(
       create: (context) =>
           PasswordGeneratorModel(wordRepository: wordRepository)..initialize(),
       child: const MainScreen(),
     );
-  }
 }
 
 void main() {
   group('Full Application Workflow', () {
     testWidgets(
       'complete workflow from settings to password generation',
-      (WidgetTester tester) async {
+      (tester) async {
         final mockRepository = MockWordRepository();
         await tester.pumpWidget(TestApp(wordRepository: mockRepository));
 
@@ -97,7 +91,7 @@ void main() {
 
     testWidgets(
       'copy password after changing settings',
-      (WidgetTester tester) async {
+      (tester) async {
         final mockRepository = MockWordRepository();
         await tester.pumpWidget(TestApp(wordRepository: mockRepository));
 
