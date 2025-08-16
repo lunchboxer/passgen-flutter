@@ -7,5 +7,5 @@ enum AppTheme {
   dark,
 
   /// Black theme with pure black background
-  black
+  black,
 }

@@ -54,18 +54,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Logger.debug('Building MyApp widget');
-    
-    if (_themeManager == null) {
-      // Show loading screen while initializing
-      return MaterialApp(
-        title: 'Passgen',
-        home: Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
-    }
 
     return MultiProvider(
       providers: [
@@ -75,13 +63,11 @@ class _MyAppState extends State<MyApp> {
         Provider<ThemeManager>.value(value: _themeManager),
       ],
       child: Consumer<ThemeManager>(
-        builder: (context, themeManager, child) {
-          return MaterialApp(
-            title: 'Passgen',
-            theme: themeManager.getThemeData(),
-            home: MainScreen(),
-          );
-        },
+        builder: (context, themeManager, child) => MaterialApp(
+          title: 'Passgen',
+          theme: themeManager.getThemeData(),
+          home: const MainScreen(),
+        ),
       ),
     );
   }
@@ -115,7 +101,7 @@ class MainScreen extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             actions: [
               IconButton(
-                icon: Icon(Icons.brightness_6),
+                icon: const Icon(Icons.brightness_6),
                 onPressed: () => _showThemeSelection(context),
               ),
             ],
@@ -212,7 +198,7 @@ class MainScreen extends StatelessWidget {
   /// Passes the current parameters and a callback to save new parameters.
   void _navigateToSettings(BuildContext context, PasswordGeneratorModel model) {
     final themeManager = Provider.of<ThemeManager>(context, listen: false);
-    
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => SettingsScreen(
@@ -235,45 +221,52 @@ class MainScreen extends StatelessWidget {
 
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: Text('Light'),
-                trailing: currentTheme == AppTheme.light
-                    ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
-                    : null,
-                onTap: () {
-                  themeManager.setTheme(AppTheme.light);
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Dark'),
-                trailing: currentTheme == AppTheme.dark
-                    ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
-                    : null,
-                onTap: () {
-                  themeManager.setTheme(AppTheme.dark);
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Black'),
-                trailing: currentTheme == AppTheme.black
-                    ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
-                    : null,
-                onTap: () {
-                  themeManager.setTheme(AppTheme.black);
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        );
-      },
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: const Text('Light'),
+              trailing: currentTheme == AppTheme.light
+                  ? Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.primary,
+                    )
+                  : null,
+              onTap: () {
+                themeManager.setTheme(AppTheme.light);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Dark'),
+              trailing: currentTheme == AppTheme.dark
+                  ? Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.primary,
+                    )
+                  : null,
+              onTap: () {
+                themeManager.setTheme(AppTheme.dark);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Black'),
+              trailing: currentTheme == AppTheme.black
+                  ? Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.primary,
+                    )
+                  : null,
+              onTap: () {
+                themeManager.setTheme(AppTheme.black);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

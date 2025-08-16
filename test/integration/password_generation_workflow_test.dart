@@ -46,10 +46,8 @@ class TestPasswordDisplay extends StatelessWidget {
   final VoidCallback onCopyCalled;
 
   @override
-  Widget build(BuildContext context) => PasswordDisplayWidget(
-      password: 'test-password',
-      onCopy: onCopyCalled,
-    );
+  Widget build(BuildContext context) =>
+      PasswordDisplayWidget(password: 'test-password', onCopy: onCopyCalled);
 }
 
 void main() {

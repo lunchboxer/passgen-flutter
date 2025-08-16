@@ -7,6 +7,7 @@ import 'package:passgen/main.dart';
 import 'package:passgen/models/password_params.dart';
 import 'package:passgen/ui/settings_screen.dart';
 import 'package:provider/provider.dart';
+import '../mock_theme_manager.dart';
 
 // Relative imports should come after package imports
 
@@ -44,11 +45,13 @@ void main() {
   group('Settings Workflow', () {
     testWidgets('Settings screen displays correctly', (tester) async {
       final savedParams = ValueNotifier<PasswordParams?>(null);
+      final mockThemeManager = MockThemeManager();
 
       await tester.pumpWidget(
         MaterialApp(
           home: SettingsScreen(
             currentParams: PasswordParams(),
+            themeManager: mockThemeManager,
             onSave: (params) => savedParams.value = params,
           ),
         ),
@@ -61,11 +64,13 @@ void main() {
 
     testWidgets('Settings screen saves parameters', (tester) async {
       final savedParams = ValueNotifier<PasswordParams?>(null);
+      final mockThemeManager = MockThemeManager();
 
       await tester.pumpWidget(
         MaterialApp(
           home: SettingsScreen(
             currentParams: PasswordParams(),
+            themeManager: mockThemeManager,
             onSave: (params) => savedParams.value = params,
           ),
         ),
@@ -93,11 +98,13 @@ void main() {
 
     testWidgets('Settings screen changes separator character', (tester) async {
       final savedParams = ValueNotifier<PasswordParams?>(null);
+      final mockThemeManager = MockThemeManager();
 
       await tester.pumpWidget(
         MaterialApp(
           home: SettingsScreen(
             currentParams: PasswordParams(),
+            themeManager: mockThemeManager,
             onSave: (params) => savedParams.value = params,
           ),
         ),

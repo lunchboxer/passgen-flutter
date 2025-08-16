@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:passgen/models/password_params.dart';
 import 'package:passgen/ui/settings_screen.dart';
+import '../mock_theme_manager.dart';
 
 void main() {
   group('SettingsScreen', () {
     // Remove redundant argument values
     final testParams = PasswordParams();
+    final mockThemeManager = MockThemeManager();
 
     testWidgets('renders all controls with correct initial values', (
       tester,
     ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: SettingsScreen(currentParams: testParams, onSave: (_) {}),
+          home: SettingsScreen(
+            currentParams: testParams,
+            themeManager: mockThemeManager,
+            onSave: (_) {},
+          ),
         ),
       );
 
@@ -47,6 +53,7 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
+            themeManager: mockThemeManager,
             onSave: (params) {
               savedParams = params;
             },
@@ -74,6 +81,7 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
+            themeManager: mockThemeManager,
             onSave: (params) {
               savedParams = params;
             },
@@ -102,6 +110,7 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
+            themeManager: mockThemeManager,
             onSave: (params) {
               savedParams = params;
             },
@@ -128,6 +137,7 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
+            themeManager: mockThemeManager,
             onSave: (params) {
               savedParams = params;
             },
@@ -155,6 +165,7 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
+            themeManager: mockThemeManager,
             onSave: (_) {}, // Remove type annotation
           ),
         ),

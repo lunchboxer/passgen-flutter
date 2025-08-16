@@ -93,9 +93,11 @@ class SettingsManager {
   /// Get a setting value by key with an optional default value.
   ///
   /// If the setting is not found, the [defaultValue] is returned.
-  String getSetting(String key, [String defaultValue = '']) {
-    return _prefs.getString(key) ?? defaultValue;
-  }
+  String getSetting(String key, [String defaultValue = '']) =>
+      _prefs.getString(key) ?? defaultValue;
+
+  /// Get the theme setting with a default value.
+  String getThemeSetting() => getSetting(_themeKey, _defaultTheme);
 
   /// Set a setting value by key.
   Future<void> setSetting(String key, String value) async {

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:passgen/core/settings_manager.dart';
-import 'package:passgen/models/app_theme.dart';
+
+import '../models/app_theme.dart';
+import 'settings_manager.dart';
+import 'theme_manager_interface.dart';
 
 /// Manages the application theme state and provides theme data
-class ThemeManager {
+class ThemeManager implements IThemeManager {
+  ThemeManager(this._settingsManager);
   final SettingsManager _settingsManager;
 
-  ThemeManager(this._settingsManager);
-
-  /// Gets the current theme from settings
+  @override
   AppTheme getCurrentTheme() {
     final themeString = _settingsManager.getSetting('theme', 'light');
     switch (themeString) {
@@ -16,19 +17,19 @@ class ThemeManager {
         return AppTheme.dark;
       case 'black':
         return AppTheme.black;
-      case 'light':
       default:
+        // Handle 'light' and unexpected theme values by returning light theme
         return AppTheme.light;
     }
   }
 
-  /// Sets the current theme in settings
+  @override
   void setTheme(AppTheme theme) {
     final themeString = theme.toString().split('.').last;
     _settingsManager.setSetting('theme', themeString);
   }
 
-  /// Gets the ThemeData for the current theme
+  @override
   ThemeData getThemeData() {
     switch (getCurrentTheme()) {
       case AppTheme.dark:
@@ -39,10 +40,10 @@ class ThemeManager {
         return ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
           cardColor: Colors.grey[900],
-          dialogBackgroundColor: Colors.grey[900],
+          dialogTheme: DialogThemeData(backgroundColor: Colors.grey[900]),
         );
-      case AppTheme.light:
       default:
+        // Handle AppTheme.light and any other cases
         return ThemeData.light();
     }
   }

@@ -1,4 +1,4 @@
-// Sort directives
+// Sort imports alphabetically
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:passgen/core/password_generator_model.dart';
@@ -7,6 +7,7 @@ import 'package:passgen/main.dart';
 import 'package:passgen/models/password_params.dart';
 import 'package:passgen/ui/settings_screen.dart';
 import 'package:provider/provider.dart';
+import '../mock_theme_manager.dart';
 
 // Relative imports should come after package imports
 
@@ -44,11 +45,13 @@ void main() {
   group('Application Functionality', () {
     testWidgets('Settings screen can update parameters', (tester) async {
       final savedParams = ValueNotifier<PasswordParams?>(null);
+      final mockThemeManager = MockThemeManager();
 
       await tester.pumpWidget(
         MaterialApp(
           home: SettingsScreen(
             currentParams: PasswordParams(),
+            themeManager: mockThemeManager,
             onSave: (params) => savedParams.value = params,
           ),
         ),
@@ -72,11 +75,13 @@ void main() {
 
     testWidgets('Settings screen can toggle capitalize switch', (tester) async {
       final savedParams = ValueNotifier<PasswordParams?>(null);
+      final mockThemeManager = MockThemeManager();
 
       await tester.pumpWidget(
         MaterialApp(
           home: SettingsScreen(
             currentParams: PasswordParams(),
+            themeManager: mockThemeManager,
             onSave: (params) => savedParams.value = params,
           ),
         ),
