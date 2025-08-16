@@ -7,7 +7,6 @@ import '../core/logger.dart';
 import '../core/password_generator_model.dart';
 import '../core/settings_manager.dart';
 import '../core/theme_provider.dart';
-import '../ui/components/action_buttons_row.dart';
 import '../ui/components/parameter_controls_panel.dart';
 import '../ui/components/password_display_widget.dart';
 import '../ui/settings_screen.dart';
@@ -98,6 +97,12 @@ class MainScreen extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Passgen'),
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () => _navigateToSettings(context, model),
+              ),
+            ],
           ),
           body: LayoutBuilder(
             builder: (context, constraints) {
@@ -116,16 +121,22 @@ class MainScreen extends StatelessWidget {
                         onCopy: () =>
                             _copyToClipboard(context, model.currentPassword),
                       ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: model.regeneratePassword,
+                            icon: const Icon(Icons.refresh),
+                            label: const Text('Regenerate'),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 24),
                       ParameterControlsPanel(
                         params: model.currentParams,
                         onParamsChanged: (newParams) =>
                             model.updateParams(newParams),
-                      ),
-                      const SizedBox(height: 24),
-                      ActionButtonsRow(
-                        onRegenerate: model.regeneratePassword,
-                        onSettings: () => _navigateToSettings(context, model),
                       ),
                       const SizedBox(height: 24),
                     ],
@@ -143,14 +154,22 @@ class MainScreen extends StatelessWidget {
                         onCopy: () =>
                             _copyToClipboard(context, model.currentPassword),
                       ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: model.regeneratePassword,
+                            icon: const Icon(Icons.refresh),
+                            label: const Text('Regenerate'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
                       ParameterControlsPanel(
                         params: model.currentParams,
                         onParamsChanged: (newParams) =>
                             model.updateParams(newParams),
-                      ),
-                      ActionButtonsRow(
-                        onRegenerate: model.regeneratePassword,
-                        onSettings: () => _navigateToSettings(context, model),
                       ),
                       const SizedBox(height: 16),
                     ],

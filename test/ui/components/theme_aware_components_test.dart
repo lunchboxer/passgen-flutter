@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:passgen/core/settings_manager.dart';
 import 'package:passgen/models/password_params.dart';
-import 'package:passgen/ui/components/action_buttons_row.dart';
 import 'package:passgen/ui/components/parameter_controls_panel.dart';
 import 'package:passgen/ui/components/password_display_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -141,59 +140,6 @@ void main() {
       });
     });
 
-    group('ActionButtonsRow', () {
-      testWidgets('adapts to light theme', (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            theme: ThemeData.light(),
-            home: Scaffold(
-              body: ActionButtonsRow(onRegenerate: () {}, onSettings: () {}),
-            ),
-          ),
-        );
-
-        // Verify the buttons are displayed
-        expect(find.text('Regenerate'), findsOneWidget);
-        expect(find.text('Settings'), findsOneWidget);
-        expect(find.byIcon(Icons.refresh), findsOneWidget);
-        expect(find.byIcon(Icons.settings), findsOneWidget);
-      });
-
-      testWidgets('adapts to dark theme', (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            theme: ThemeData.dark(),
-            home: Scaffold(
-              body: ActionButtonsRow(onRegenerate: () {}, onSettings: () {}),
-            ),
-          ),
-        );
-
-        // Verify the buttons are displayed
-        expect(find.text('Regenerate'), findsOneWidget);
-        expect(find.text('Settings'), findsOneWidget);
-        expect(find.byIcon(Icons.refresh), findsOneWidget);
-        expect(find.byIcon(Icons.settings), findsOneWidget);
-      });
-
-      testWidgets('adapts to black theme', (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            theme: ThemeData.dark().copyWith(
-              scaffoldBackgroundColor: Colors.black,
-            ),
-            home: Scaffold(
-              body: ActionButtonsRow(onRegenerate: () {}, onSettings: () {}),
-            ),
-          ),
-        );
-
-        // Verify the buttons are displayed
-        expect(find.text('Regenerate'), findsOneWidget);
-        expect(find.text('Settings'), findsOneWidget);
-        expect(find.byIcon(Icons.refresh), findsOneWidget);
-        expect(find.byIcon(Icons.settings), findsOneWidget);
-      });
-    });
+    
   });
 }
