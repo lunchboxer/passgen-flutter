@@ -59,8 +59,8 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
     return Card(
       margin: EdgeInsets.all(isLargeScreen ? 20 : 16),
       // Adapt card color to theme
-      color: theme.brightness == Brightness.dark 
-          ? theme.cardColor 
+      color: theme.brightness == Brightness.dark
+          ? theme.cardColor
           : null, // Use default card color for light theme
       child: Padding(
         padding: EdgeInsets.all(isLargeScreen ? 20 : 16),
@@ -184,9 +184,7 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(
-                    color: theme.colorScheme.primary,
-                  ),
+                  borderSide: BorderSide(color: theme.colorScheme.primary),
                 ),
               ),
               // Adapt text color to theme

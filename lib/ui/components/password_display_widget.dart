@@ -49,10 +49,10 @@ class _PasswordDisplayWidgetState extends State<PasswordDisplayWidget> {
     final containerPadding = isLargeScreen ? 20.0 : 16.0;
     final containerMargin = isLargeScreen ? 20.0 : 16.0;
     final theme = Theme.of(context);
-    
+
     // Adapt border color to theme
-    final borderColor = theme.brightness == Brightness.dark 
-        ? Colors.grey[600]! 
+    final borderColor = theme.brightness == Brightness.dark
+        ? Colors.grey[600]!
         : Colors.grey;
 
     return Column(
@@ -65,8 +65,8 @@ class _PasswordDisplayWidgetState extends State<PasswordDisplayWidget> {
             border: Border.all(color: borderColor),
             borderRadius: BorderRadius.circular(8),
             // Add background color that adapts to theme
-            color: theme.brightness == Brightness.dark 
-                ? theme.cardColor 
+            color: theme.brightness == Brightness.dark
+                ? theme.cardColor
                 : Colors.transparent,
           ),
           child: Text(

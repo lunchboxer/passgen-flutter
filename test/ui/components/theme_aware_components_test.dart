@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:passgen/core/settings_manager.dart';
 import 'package:passgen/core/theme_manager.dart';
-import 'package:passgen/models/app_theme.dart';
 import 'package:passgen/models/password_params.dart';
 import 'package:passgen/ui/components/action_buttons_row.dart';
 import 'package:passgen/ui/components/parameter_controls_panel.dart';
@@ -152,10 +151,7 @@ void main() {
           MaterialApp(
             theme: ThemeData.light(),
             home: Scaffold(
-              body: ActionButtonsRow(
-                onRegenerate: () {},
-                onSettings: () {},
-              ),
+              body: ActionButtonsRow(onRegenerate: () {}, onSettings: () {}),
             ),
           ),
         );
@@ -172,10 +168,7 @@ void main() {
           MaterialApp(
             theme: ThemeData.dark(),
             home: Scaffold(
-              body: ActionButtonsRow(
-                onRegenerate: () {},
-                onSettings: () {},
-              ),
+              body: ActionButtonsRow(onRegenerate: () {}, onSettings: () {}),
             ),
           ),
         );
@@ -194,10 +187,7 @@ void main() {
               scaffoldBackgroundColor: Colors.black,
             ),
             home: Scaffold(
-              body: ActionButtonsRow(
-                onRegenerate: () {},
-                onSettings: () {},
-              ),
+              body: ActionButtonsRow(onRegenerate: () {}, onSettings: () {}),
             ),
           ),
         );
