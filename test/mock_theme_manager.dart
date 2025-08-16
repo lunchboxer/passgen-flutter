@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:passgen/core/theme_manager_interface.dart';
+import 'package:passgen/core/settings_manager.dart';
+import 'package:passgen/core/theme_provider.dart';
 import 'package:passgen/models/app_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MockThemeManager implements IThemeManager {
+class MockThemeProvider extends ThemeProvider {
+  MockThemeProvider() : super(_createMockSettingsManager());
   AppTheme _currentTheme = AppTheme.light;
 
+  static SettingsManager _createMockSettingsManager() {
+    // This is a simplified version for testing purposes
+    final settingsManager = SettingsManager();
+    // We'll manually set the SharedPreferences for testing
+    // This is just for compilation, the actual implementation will be mocked
+    SharedPreferences.setMockInitialValues({});
+    return settingsManager;
+  }
+
   @override
-  AppTheme getCurrentTheme() => _currentTheme;
+  AppTheme get currentTheme => _currentTheme;
 
   @override
   void setTheme(AppTheme theme) {
     _currentTheme = theme;
+    // Don't call notifyListeners in tests to avoid issues
   }
 
   @override

@@ -6,8 +6,7 @@ import '../core/clipboard_service.dart';
 import '../core/logger.dart';
 import '../core/password_generator_model.dart';
 import '../core/settings_manager.dart';
-import '../core/theme_manager.dart';
-import '../models/app_theme.dart';
+import '../core/theme_provider.dart';
 import '../ui/components/action_buttons_row.dart';
 import '../ui/components/parameter_controls_panel.dart';
 import '../ui/components/password_display_widget.dart';
@@ -35,7 +34,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late SettingsManager _settingsManager;
-  late ThemeManager _themeManager;
+  late ThemeProvider _themeProvider;
 
   @override
   void initState() {
@@ -43,12 +42,12 @@ class _MyAppState extends State<MyApp> {
     _initializeTheme();
   }
 
-  /// Initialize the theme manager
+  /// Initialize the theme provider
   Future<void> _initializeTheme() async {
     _settingsManager = SettingsManager();
     await _settingsManager.initialize();
-    _themeManager = ThemeManager(_settingsManager);
-    setState(() {}); // Rebuild with theme manager
+    _themeProvider = ThemeProvider(_settingsManager);
+    setState(() {}); // Rebuild with theme provider
   }
 
   @override
@@ -60,12 +59,12 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (context) => PasswordGeneratorModel()..initialize(),
         ),
-        Provider<ThemeManager>.value(value: _themeManager),
+        ChangeNotifierProvider<ThemeProvider>.value(value: _themeProvider),
       ],
-      child: Consumer<ThemeManager>(
-        builder: (context, themeManager, child) => MaterialApp(
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) => MaterialApp(
           title: 'Passgen',
-          theme: themeManager.getThemeData(),
+          theme: themeProvider.getThemeData(),
           home: const MainScreen(),
         ),
       ),
@@ -99,12 +98,6 @@ class MainScreen extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Passgen'),
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.brightness_6),
-                onPressed: () => _showThemeSelection(context),
-              ),
-            ],
           ),
           body: LayoutBuilder(
             builder: (context, constraints) {
@@ -197,74 +190,15 @@ class MainScreen extends StatelessWidget {
   ///
   /// Passes the current parameters and a callback to save new parameters.
   void _navigateToSettings(BuildContext context, PasswordGeneratorModel model) {
-    final themeManager = Provider.of<ThemeManager>(context, listen: false);
-
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => SettingsScreen(
           currentParams: model.currentParams,
-          themeManager: themeManager,
           onSave: (newParams) {
             model
               ..updateParams(newParams)
               ..saveSettings(newParams);
           },
-        ),
-      ),
-    );
-  }
-
-  /// Shows a dialog for theme selection
-  void _showThemeSelection(BuildContext context) {
-    final themeManager = Provider.of<ThemeManager>(context, listen: false);
-    final currentTheme = themeManager.getCurrentTheme();
-
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: const Text('Light'),
-              trailing: currentTheme == AppTheme.light
-                  ? Icon(
-                      Icons.check,
-                      color: Theme.of(context).colorScheme.primary,
-                    )
-                  : null,
-              onTap: () {
-                themeManager.setTheme(AppTheme.light);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Dark'),
-              trailing: currentTheme == AppTheme.dark
-                  ? Icon(
-                      Icons.check,
-                      color: Theme.of(context).colorScheme.primary,
-                    )
-                  : null,
-              onTap: () {
-                themeManager.setTheme(AppTheme.dark);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Black'),
-              trailing: currentTheme == AppTheme.black
-                  ? Icon(
-                      Icons.check,
-                      color: Theme.of(context).colorScheme.primary,
-                    )
-                  : null,
-              onTap: () {
-                themeManager.setTheme(AppTheme.black);
-                Navigator.pop(context);
-              },
-            ),
-          ],
         ),
       ),
     );

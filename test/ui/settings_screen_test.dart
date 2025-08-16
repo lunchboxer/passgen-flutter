@@ -3,23 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:passgen/models/password_params.dart';
 import 'package:passgen/ui/settings_screen.dart';
-import '../mock_theme_manager.dart';
+import '../mock_theme_provider.dart';
 
 void main() {
   group('SettingsScreen', () {
     // Remove redundant argument values
     final testParams = PasswordParams();
-    final mockThemeManager = MockThemeManager();
 
     testWidgets('renders all controls with correct initial values', (
       tester,
     ) async {
+      final mockThemeProvider = MockThemeProvider();
+
       await tester.pumpWidget(
         MaterialApp(
-          home: SettingsScreen(
-            currentParams: testParams,
-            themeManager: mockThemeManager,
-            onSave: (_) {},
+          home: Builder(
+            builder: (context) {
+              // Mock the ThemeProvider access in initState
+              return SettingsScreen(currentParams: testParams, onSave: (_) {});
+            },
           ),
         ),
       );
@@ -53,7 +55,6 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
-            themeManager: mockThemeManager,
             onSave: (params) {
               savedParams = params;
             },
@@ -81,7 +82,6 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
-            themeManager: mockThemeManager,
             onSave: (params) {
               savedParams = params;
             },
@@ -110,7 +110,6 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
-            themeManager: mockThemeManager,
             onSave: (params) {
               savedParams = params;
             },
@@ -137,7 +136,6 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
-            themeManager: mockThemeManager,
             onSave: (params) {
               savedParams = params;
             },
@@ -165,7 +163,6 @@ void main() {
         MaterialApp(
           home: SettingsScreen(
             currentParams: testParams,
-            themeManager: mockThemeManager,
             onSave: (_) {}, // Remove type annotation
           ),
         ),

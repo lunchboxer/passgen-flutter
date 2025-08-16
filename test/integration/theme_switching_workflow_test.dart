@@ -19,25 +19,27 @@ void main() {
       themeManager = ThemeManager(settingsManager);
     });
 
-    testWidgets('Theme change propagation through theme manager', (tester) async {
+    testWidgets('Theme change propagation through theme manager', (
+      tester,
+    ) async {
       // Verify initial theme is light
       expect(themeManager.getCurrentTheme(), AppTheme.light);
 
       // Change theme to dark
       themeManager.setTheme(AppTheme.dark);
-      
+
       // Verify theme changed to dark
       expect(themeManager.getCurrentTheme(), AppTheme.dark);
 
       // Change theme to black
       themeManager.setTheme(AppTheme.black);
-      
+
       // Verify theme changed to black
       expect(themeManager.getCurrentTheme(), AppTheme.black);
 
       // Change theme back to light
       themeManager.setTheme(AppTheme.light);
-      
+
       // Verify theme changed to light
       expect(themeManager.getCurrentTheme(), AppTheme.light);
     });
@@ -45,7 +47,7 @@ void main() {
     testWidgets('Theme persistence across app sessions', (tester) async {
       // Set theme to dark
       themeManager.setTheme(AppTheme.dark);
-      
+
       // Verify theme is dark
       expect(themeManager.getCurrentTheme(), AppTheme.dark);
 
@@ -61,15 +63,15 @@ void main() {
     testWidgets('Theme switching performance', (tester) async {
       // Measure theme switching performance
       final stopwatch = Stopwatch()..start();
-      
+
       // Switch theme multiple times
       themeManager.setTheme(AppTheme.dark);
       themeManager.setTheme(AppTheme.light);
       themeManager.setTheme(AppTheme.black);
       themeManager.setTheme(AppTheme.light);
-      
+
       stopwatch.stop();
-      
+
       // Verify theme switching is fast (less than 100ms for 4 switches)
       expect(stopwatch.elapsedMilliseconds, lessThan(100));
     });
