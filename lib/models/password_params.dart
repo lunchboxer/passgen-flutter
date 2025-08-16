@@ -44,7 +44,8 @@ class PasswordParams {
   /// A minimum length constraint for the password.
   ///
   /// If specified, the generated password will be at least this long.
-  /// Must be at least 4 times the word count (assuming minimum word length of 4).
+  /// Must be at least 4 times the word count (assuming minimum word length 
+  /// of 4).
   final int? lengthConstraint;
 
   /// Creates a new PasswordParams with updated values.
@@ -72,8 +73,8 @@ class PasswordParams {
   /// Validation rules:
   /// - Word count must be between 1 and 10
   /// - Separator must be a single character
-  /// - If length constraint is specified, it must be at least 4 times the word count
-  ///   (assuming minimum word length of 4 characters)
+  /// - If length constraint is specified, it must be at least 4 times the 
+  ///   word count (assuming minimum word length of 4 characters)
   bool validate() {
     // Word count must be between 1 and 10
     if (wordCount < 1 || wordCount > 10) {
@@ -85,8 +86,8 @@ class PasswordParams {
       return false;
     }
 
-    // If length constraint is specified, it must be at least 4 times the word count
-    // (assuming minimum word length of 4 characters)
+    // If length constraint is specified, it must be at least 4 times the 
+    // word count (assuming minimum word length of 4 characters)
     if (lengthConstraint != null && lengthConstraint! < wordCount * 4) {
       return false;
     }

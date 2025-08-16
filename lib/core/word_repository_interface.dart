@@ -1,8 +1,9 @@
 /// An interface for word repositories.
 ///
-/// This interface defines the contract for word repositories in the Passgen app.
-/// Word repositories are responsible for loading word lists and providing random
-/// words.
+/// This interface defines the contract for word repositories in the 
+/// Passgen app.
+/// Word repositories are responsible for loading word lists and providing 
+/// random words.
 abstract class IWordRepository {
   /// Initialize the repository by loading word lists from assets.
   ///

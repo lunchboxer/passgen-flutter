@@ -2,7 +2,8 @@ import '../models/password_params.dart';
 
 /// An interface for password generation.
 ///
-/// This interface defines the contract for password generators in the Passgen app.
+/// This interface defines the contract for password generators in the 
+/// Passgen app.
 abstract class IPasswordGenerator {
   /// Generate a password based on the provided parameters.
   ///

@@ -15,8 +15,8 @@ class WordListVerifier {
         '5c4c9fc36b4855d126814286c84b5f3a8220478b1772898f0d1a16605eee1a45',
   };
 
-  /// Verifies the integrity of a word list asset by calculating its SHA-256 checksum
-  /// and comparing it with the expected value.
+  /// Verifies the integrity of a word list asset by calculating its SHA-256 
+  /// checksum and comparing it with the expected value.
   ///
   /// Returns true if the checksum matches, false otherwise.
   static Future<bool> verifyWordList(String assetPath) async {
@@ -82,7 +82,8 @@ class WordListVerifier {
 
       if (duplicateWords.isNotEmpty) {
         Logger.warn(
-          'Word list $assetPath contains ${duplicateWords.length} duplicate words',
+          'Word list $assetPath contains ${duplicateWords.length} '
+          'duplicate words',
         );
         // Log first few duplicates for debugging
         duplicateWords.take(5).forEach((word) {

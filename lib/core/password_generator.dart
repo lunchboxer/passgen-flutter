@@ -8,8 +8,8 @@ import '../models/password_params.dart';
 ///
 /// This class implements the [IPasswordGenerator] interface and uses a word
 /// repository to generate passwords using a word-based approach. It supports
-/// various customization options such as word count, capitalization, separators,
-/// and appending numbers or symbols.
+/// various customization options such as word count, capitalization, 
+/// separators, and appending numbers or symbols.
 class PasswordGeneratorService implements IPasswordGenerator {
   /// Creates a new PasswordGeneratorService with the specified word repository.
   PasswordGeneratorService(this._wordRepository);
@@ -52,7 +52,7 @@ class PasswordGeneratorService implements IPasswordGenerator {
 
     // Generate the words
     final words = <String>[];
-    for (int i = 0; i < params.wordCount; i++) {
+    for (var i = 0; i < params.wordCount; i++) {
       var word = _wordRepository.getRandomWord(maxLength: maxWordLength);
 
       // Apply capitalization if requested

@@ -7,7 +7,8 @@ import '../core/logger.dart';
 /// should be enabled based on the current mode of the application.
 class SecurityService {
   /// Checks if clipboard monitoring is allowed
-  /// In debug mode, we might want to disable certain security features for testing
+  /// In debug mode, we might want to disable certain security features for 
+  /// testing
   static bool isClipboardMonitoringAllowed() {
     // In release mode, clipboard monitoring is always allowed
     // In debug mode, it's controlled by a flag for testing purposes
