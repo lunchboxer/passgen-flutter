@@ -139,7 +139,5 @@ void main() {
         expect(find.text('Capitalize Words'), findsOneWidget);
       });
     });
-
-    
   });
 }
