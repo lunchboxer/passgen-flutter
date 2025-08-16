@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../core/theme_manager.dart';
+import '../../models/app_theme.dart';
 import '../../models/password_params.dart';
 
 class SettingsScreen extends StatefulWidget {
   /// Creates a SettingsScreen widget.
   const SettingsScreen({
     required this.currentParams,
+    required this.themeManager,
     required this.onSave,
     super.key,
   });
 
   final PasswordParams currentParams;
+  final ThemeManager themeManager;
   final ValueChanged<PasswordParams> onSave;
 
   @override
@@ -19,6 +24,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   late PasswordParams _params;
+  late AppTheme _selectedTheme;
   late TextEditingController _separatorController;
   late TextEditingController _lengthConstraintController;
   String? _validationError;
@@ -27,6 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     _params = widget.currentParams;
+    _selectedTheme = widget.themeManager.getCurrentTheme();
     _separatorController = TextEditingController(text: _params.separator);
     _lengthConstraintController = TextEditingController(
       text: _params.lengthConstraint?.toString() ?? '',
@@ -44,6 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     // Validate parameters before saving
     if (_params.validate()) {
       widget.onSave(_params);
+      widget.themeManager.setTheme(_selectedTheme);
       Navigator.of(context).pop();
     } else {
       // Show validation error
@@ -67,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           IconButton(
             icon: const Icon(Icons.save),
             onPressed: _saveSettings,
-            tooltip: 'Save', // Remove redundant argument
+            tooltip: 'Save',
           ),
         ],
       ),
@@ -102,6 +110,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ],
                 ),
               ),
+            const SizedBox(height: 16),
+            // Theme Selection
+            const Text(
+              'Theme:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            RadioListTile<AppTheme>(
+              title: const Text('Light'),
+              value: AppTheme.light,
+              groupValue: _selectedTheme,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _selectedTheme = value;
+                  });
+                }
+              },
+            ),
+            RadioListTile<AppTheme>(
+              title: const Text('Dark'),
+              value: AppTheme.dark,
+              groupValue: _selectedTheme,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _selectedTheme = value;
+                  });
+                }
+              },
+            ),
+            RadioListTile<AppTheme>(
+              title: const Text('Black'),
+              value: AppTheme.black,
+              groupValue: _selectedTheme,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _selectedTheme = value;
+                  });
+                }
+              },
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
             const SizedBox(height: 16),
             // Word Count Slider
             Row(

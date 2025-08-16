@@ -67,12 +67,21 @@ class _MyAppState extends State<MyApp> {
       );
     }
 
-    return ChangeNotifierProvider(
-      create: (context) => PasswordGeneratorModel()..initialize(),
-      child: MaterialApp(
-        title: 'Passgen',
-        theme: _themeManager.getThemeData(),
-        home: MainScreen(themeManager: _themeManager),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => PasswordGeneratorModel()..initialize(),
+        ),
+        Provider<ThemeManager>.value(value: _themeManager),
+      ],
+      child: Consumer<ThemeManager>(
+        builder: (context, themeManager, child) {
+          return MaterialApp(
+            title: 'Passgen',
+            theme: themeManager.getThemeData(),
+            home: MainScreen(),
+          );
+        },
       ),
     );
   }
@@ -85,10 +94,8 @@ class _MyAppState extends State<MyApp> {
 /// - Parameter controls
 /// - Action buttons (regenerate, settings)
 class MainScreen extends StatelessWidget {
-  final ThemeManager? themeManager;
-
   /// Creates a MainScreen widget.
-  const MainScreen({super.key, this.themeManager});
+  const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +114,10 @@ class MainScreen extends StatelessWidget {
             title: const Text('Passgen'),
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             actions: [
-              if (themeManager != null)
-                IconButton(
-                  icon: Icon(Icons.brightness_6),
-                  onPressed: () => _showThemeSelection(context),
-                ),
+              IconButton(
+                icon: Icon(Icons.brightness_6),
+                onPressed: () => _showThemeSelection(context),
+              ),
             ],
           ),
           body: LayoutBuilder(
@@ -205,10 +211,13 @@ class MainScreen extends StatelessWidget {
   ///
   /// Passes the current parameters and a callback to save new parameters.
   void _navigateToSettings(BuildContext context, PasswordGeneratorModel model) {
+    final themeManager = Provider.of<ThemeManager>(context, listen: false);
+    
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => SettingsScreen(
           currentParams: model.currentParams,
+          themeManager: themeManager,
           onSave: (newParams) {
             model
               ..updateParams(newParams)
@@ -221,9 +230,8 @@ class MainScreen extends StatelessWidget {
 
   /// Shows a dialog for theme selection
   void _showThemeSelection(BuildContext context) {
-    if (themeManager == null) return;
-
-    final currentTheme = themeManager!.getCurrentTheme();
+    final themeManager = Provider.of<ThemeManager>(context, listen: false);
+    final currentTheme = themeManager.getCurrentTheme();
 
     showModalBottomSheet(
       context: context,
@@ -238,7 +246,7 @@ class MainScreen extends StatelessWidget {
                     ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
                     : null,
                 onTap: () {
-                  themeManager!.setTheme(AppTheme.light);
+                  themeManager.setTheme(AppTheme.light);
                   Navigator.pop(context);
                 },
               ),
@@ -248,7 +256,7 @@ class MainScreen extends StatelessWidget {
                     ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
                     : null,
                 onTap: () {
-                  themeManager!.setTheme(AppTheme.dark);
+                  themeManager.setTheme(AppTheme.dark);
                   Navigator.pop(context);
                 },
               ),
@@ -258,7 +266,7 @@ class MainScreen extends StatelessWidget {
                     ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
                     : null,
                 onTap: () {
-                  themeManager!.setTheme(AppTheme.black);
+                  themeManager.setTheme(AppTheme.black);
                   Navigator.pop(context);
                 },
               ),
