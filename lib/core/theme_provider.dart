@@ -28,7 +28,6 @@ class ThemeProvider extends ChangeNotifier {
           dialogTheme: DialogThemeData(backgroundColor: Colors.grey[900]),
         );
       case AppTheme.light:
-      default:
         return ThemeData.light();
     }
   }
@@ -47,7 +46,9 @@ class ThemeProvider extends ChangeNotifier {
       case 'black':
         return AppTheme.black;
       case 'light':
+        return AppTheme.light;
       default:
+        // Return default theme for unknown values
         return AppTheme.light;
     }
   }
