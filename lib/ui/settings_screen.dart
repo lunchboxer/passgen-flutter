@@ -1,6 +1,6 @@
-// Use relative imports for files in the 'lib' directory
-import 'package:passgen/models/password_params.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/password_params.dart';
 
 class SettingsScreen extends StatefulWidget {
   /// Creates a SettingsScreen widget.

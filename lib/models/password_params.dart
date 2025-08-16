@@ -57,15 +57,14 @@ class PasswordParams {
     bool? appendNumber,
     bool? appendSymbol,
     int? lengthConstraint,
-  }) =>
-      PasswordParams(
-        wordCount: wordCount ?? this.wordCount,
-        capitalize: capitalize ?? this.capitalize,
-        separator: separator ?? this.separator,
-        appendNumber: appendNumber ?? this.appendNumber,
-        appendSymbol: appendSymbol ?? this.appendSymbol,
-        lengthConstraint: lengthConstraint ?? this.lengthConstraint,
-      );
+  }) => PasswordParams(
+    wordCount: wordCount ?? this.wordCount,
+    capitalize: capitalize ?? this.capitalize,
+    separator: separator ?? this.separator,
+    appendNumber: appendNumber ?? this.appendNumber,
+    appendSymbol: appendSymbol ?? this.appendSymbol,
+    lengthConstraint: lengthConstraint ?? this.lengthConstraint,
+  );
 
   /// Validates the parameters.
   ///
@@ -111,13 +110,13 @@ class PasswordParams {
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => Object.hash(
-        wordCount,
-        capitalize,
-        separator,
-        appendNumber,
-        appendSymbol,
-        lengthConstraint,
-      );
+    wordCount,
+    capitalize,
+    separator,
+    appendNumber,
+    appendSymbol,
+    lengthConstraint,
+  );
 
   @override
   String toString() =>

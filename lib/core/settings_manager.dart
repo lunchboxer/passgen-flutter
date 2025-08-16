@@ -1,6 +1,6 @@
-// Sort directives and use relative imports
-import 'package:passgen/models/password_params.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/password_params.dart';
 
 /// A manager for handling user settings using SharedPreferences.
 ///

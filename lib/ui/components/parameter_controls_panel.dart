@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:passgen/models/password_params.dart';
+import '../../models/password_params.dart';
 
 class ParameterControlsPanel extends StatefulWidget {
   /// Creates a ParameterControlsPanel widget.

@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
-// Use relative imports for files in the 'lib' directory
-import 'package:passgen/core/logger.dart';
+import '../core/logger.dart';
 
 /// A utility class for clipboard operations.
 ///

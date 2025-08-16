@@ -1,11 +1,10 @@
-// Sort directives and use relative imports
 import 'package:flutter/foundation.dart';
-import 'package:passgen/core/logger.dart';
-import 'package:passgen/core/password_generator.dart';
-import 'package:passgen/core/settings_manager.dart';
-import 'package:passgen/core/word_repository.dart';
-import 'package:passgen/core/word_repository_interface.dart';
-import 'package:passgen/models/password_params.dart';
+import '../core/logger.dart';
+import '../core/password_generator.dart';
+import '../core/settings_manager.dart';
+import '../core/word_repository.dart';
+import '../core/word_repository_interface.dart';
+import '../models/password_params.dart';
 
 /// A model class that manages the state of the password generator.
 ///

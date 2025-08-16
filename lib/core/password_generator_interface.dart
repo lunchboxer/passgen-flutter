@@ -1,5 +1,4 @@
-// Use relative imports for files in the 'lib' directory
-import 'package:passgen/models/password_params.dart';
+import '../models/password_params.dart';
 
 /// An interface for password generation.
 ///

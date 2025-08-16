@@ -1,11 +1,10 @@
 import 'dart:math';
 
-// Sort directives and use relative imports
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:passgen/core/logger.dart';
-import 'package:passgen/core/security_service.dart';
-import 'package:passgen/core/word_list_verifier.dart';
-import 'package:passgen/core/word_repository_interface.dart';
+import '../core/logger.dart';
+import '../core/security_service.dart';
+import '../core/word_list_verifier.dart';
+import '../core/word_repository_interface.dart';
 
 /// A repository that manages word lists for password generation.
 ///
@@ -24,16 +23,20 @@ class WordRepository implements IWordRepository {
     try {
       // Verify word lists before loading them (security check)
       if (SecurityService.shouldEnableScreenRecordingProtection()) {
-        final isPrimaryValid =
-            await WordListVerifier.verifyWordList('assets/words.txt');
-        final isShortValid =
-            await WordListVerifier.verifyWordList('assets/short-words.txt');
+        final isPrimaryValid = await WordListVerifier.verifyWordList(
+          'assets/words.txt',
+        );
+        final isShortValid = await WordListVerifier.verifyWordList(
+          'assets/short-words.txt',
+        );
 
         // Perform additional content verification
         final isPrimaryContentValid =
             await WordListVerifier.verifyWordListContent('assets/words.txt');
         final isShortContentValid =
-            await WordListVerifier.verifyWordListContent('assets/short-words.txt');
+            await WordListVerifier.verifyWordListContent(
+              'assets/short-words.txt',
+            );
 
         if (!isPrimaryValid ||
             !isShortValid ||
@@ -89,8 +92,9 @@ class WordRepository implements IWordRepository {
     }
 
     // Filter words by length constraint
-    final filteredWords =
-        _primaryWordList.where((word) => word.length <= maxLength).toList();
+    final filteredWords = _primaryWordList
+        .where((word) => word.length <= maxLength)
+        .toList();
 
     // If we have filtered words, use them
     if (filteredWords.isNotEmpty) {
@@ -103,8 +107,9 @@ class WordRepository implements IWordRepository {
     }
 
     // Filter short words by length constraint
-    final filteredShortWords =
-        _shortWordList.where((word) => word.length <= maxLength).toList();
+    final filteredShortWords = _shortWordList
+        .where((word) => word.length <= maxLength)
+        .toList();
 
     if (filteredShortWords.isNotEmpty) {
       return filteredShortWords[_random.nextInt(filteredShortWords.length)];

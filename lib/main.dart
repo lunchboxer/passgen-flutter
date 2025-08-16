@@ -1,13 +1,14 @@
 // Sort directive sections alphabetically
 import 'package:flutter/material.dart';
-import 'package:passgen/core/clipboard_service.dart';
-import 'package:passgen/core/logger.dart';
-import 'package:passgen/core/password_generator_model.dart';
-import 'package:passgen/ui/components/action_buttons_row.dart';
-import 'package:passgen/ui/components/parameter_controls_panel.dart';
-import 'package:passgen/ui/components/password_display_widget.dart';
-import 'package:passgen/ui/settings_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../core/clipboard_service.dart';
+import '../core/logger.dart';
+import '../core/password_generator_model.dart';
+import '../ui/components/action_buttons_row.dart';
+import '../ui/components/parameter_controls_panel.dart';
+import '../ui/components/password_display_widget.dart';
+import '../ui/settings_screen.dart';
 
 /// The main entry point for the Passgen application.
 ///
@@ -170,7 +171,6 @@ class MainScreen extends StatelessWidget {
           },
         ),
       ),
-    )
-      ..then((value) => null); // Using cascade to avoid duplication warning
+    )..then((value) => null); // Using cascade to avoid duplication warning
   }
 }

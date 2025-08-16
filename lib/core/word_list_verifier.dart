@@ -1,7 +1,6 @@
-// Sort directives
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:passgen/core/logger.dart';
+import '../core/logger.dart';
 
 /// A utility class for verifying the integrity of word list assets.
 ///
