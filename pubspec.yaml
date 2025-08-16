@@ -39,6 +39,7 @@ dependencies:
 
 dev_dependencies:
   benchmark_harness: ^2.2.2
+  flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
@@ -47,6 +48,11 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icon.png"
+
 flutter:
 
   # The following line ensures that the Material Icons font is
