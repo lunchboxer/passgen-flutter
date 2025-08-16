@@ -112,7 +112,7 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
                 _updateParams(widget.params.copyWith(capitalize: value));
               },
               // Adapt switch colors to theme
-              activeColor: theme.colorScheme.primary,
+              activeThumbColor: theme.colorScheme.primary,
               inactiveThumbColor: theme.brightness == Brightness.dark
                   ? Colors.grey[400]
                   : Colors.grey[400],
@@ -129,7 +129,7 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
                 _updateParams(widget.params.copyWith(appendNumber: value));
               },
               // Adapt switch colors to theme
-              activeColor: theme.colorScheme.primary,
+              activeThumbColor: theme.colorScheme.primary,
               inactiveThumbColor: theme.brightness == Brightness.dark
                   ? Colors.grey[400]
                   : Colors.grey[400],
@@ -146,7 +146,7 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
                 _updateParams(widget.params.copyWith(appendSymbol: value));
               },
               // Adapt switch colors to theme
-              activeColor: theme.colorScheme.primary,
+              activeThumbColor: theme.colorScheme.primary,
               inactiveThumbColor: theme.brightness == Brightness.dark
                   ? Colors.grey[400]
                   : Colors.grey[400],
@@ -175,7 +175,7 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
                     ? theme.cardColor
                     : Colors.white,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4.0),
+                  borderRadius: BorderRadius.circular(4),
                   borderSide: BorderSide(
                     color: theme.brightness == Brightness.dark
                         ? Colors.grey[700]!
@@ -183,7 +183,7 @@ class _ParameterControlsPanelState extends State<ParameterControlsPanel> {
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4.0),
+                  borderRadius: BorderRadius.circular(4),
                   borderSide: BorderSide(
                     color: theme.colorScheme.primary,
                   ),
