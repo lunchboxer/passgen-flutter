@@ -166,8 +166,9 @@ class MainScreen extends StatelessWidget {
         builder: (context) => SettingsScreen(
           currentParams: model.currentParams,
           onSave: (newParams) {
-            model.updateParams(newParams);
-            model.saveSettings(newParams);
+            model
+              ..updateParams(newParams)
+              ..saveSettings(newParams);
           },
         ),
       ),

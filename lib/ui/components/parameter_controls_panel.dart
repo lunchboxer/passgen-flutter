@@ -4,7 +4,9 @@ import '../../models/password_params.dart';
 class ParameterControlsPanel extends StatefulWidget {
   /// Creates a ParameterControlsPanel widget.
   const ParameterControlsPanel({
-    required this.params, required this.onParamsChanged, super.key,
+    required this.params,
+    required this.onParamsChanged,
+    super.key,
   });
 
   final PasswordParams params;

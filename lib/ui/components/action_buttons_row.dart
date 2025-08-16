@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class ActionButtonsRow extends StatelessWidget {
   /// Creates an ActionButtonsRow widget.
   const ActionButtonsRow({
-    required this.onRegenerate, required this.onSettings, super.key,
+    required this.onRegenerate,
+    required this.onSettings,
+    super.key,
   });
 
   final VoidCallback onRegenerate;

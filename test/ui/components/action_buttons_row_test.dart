@@ -4,24 +4,23 @@ import 'package:passgen/ui/components/action_buttons_row.dart';
 
 void main() {
   group('ActionButtonsRow', () {
-    testWidgets(
-      'renders both buttons with correct icons and text',
-      (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: ActionButtonsRow(onRegenerate: () {}, onSettings: () {}),
-          ),
-        );
+    testWidgets('renders both buttons with correct icons and text', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: ActionButtonsRow(onRegenerate: () {}, onSettings: () {}),
+        ),
+      );
 
-        // Check regenerate button
-        expect(find.text('Regenerate'), findsOneWidget);
-        expect(find.byIcon(Icons.refresh), findsOneWidget);
+      // Check regenerate button
+      expect(find.text('Regenerate'), findsOneWidget);
+      expect(find.byIcon(Icons.refresh), findsOneWidget);
 
-        // Check settings button
-        expect(find.text('Settings'), findsOneWidget);
-        expect(find.byIcon(Icons.settings), findsOneWidget);
-      },
-    );
+      // Check settings button
+      expect(find.text('Settings'), findsOneWidget);
+      expect(find.byIcon(Icons.settings), findsOneWidget);
+    });
 
     testWidgets(
       'calls onRegenerate callback when regenerate button is pressed',
@@ -43,24 +42,23 @@ void main() {
       },
     );
 
-    testWidgets(
-      'calls onSettings callback when settings button is pressed',
-      (tester) async {
-        var settingsCalled = false;
-        await tester.pumpWidget(
-          MaterialApp(
-            home: ActionButtonsRow(
-              onRegenerate: () {},
-              onSettings: () {
-                settingsCalled = true;
-              },
-            ),
+    testWidgets('calls onSettings callback when settings button is pressed', (
+      tester,
+    ) async {
+      var settingsCalled = false;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: ActionButtonsRow(
+            onRegenerate: () {},
+            onSettings: () {
+              settingsCalled = true;
+            },
           ),
-        );
+        ),
+      );
 
-        await tester.tap(find.text('Settings'));
-        expect(settingsCalled, isTrue);
-      },
-    );
+      await tester.tap(find.text('Settings'));
+      expect(settingsCalled, isTrue);
+    });
   });
 }

@@ -9,10 +9,7 @@ class MockWordRepository implements IWordRepository {
   Future<void> initialize() async {}
 
   @override
-  String getRandomWord({int? maxLength}) {
-    // Return a fixed word for testing predictability
-    return 'test';
-  }
+  String getRandomWord({int? maxLength}) => 'test';
 }
 
 void main() {

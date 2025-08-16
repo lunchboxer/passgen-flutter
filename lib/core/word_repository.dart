@@ -8,7 +8,7 @@ import '../core/word_repository_interface.dart';
 
 /// A repository that manages word lists for password generation.
 ///
-/// This class implements the [IWordRepository] interface and is responsible 
+/// This class implements the [IWordRepository] interface and is responsible
 /// for:
 /// - Loading word lists from assets
 /// - Verifying the integrity of word lists

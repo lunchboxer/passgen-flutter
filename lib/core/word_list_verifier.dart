@@ -15,7 +15,7 @@ class WordListVerifier {
         '5c4c9fc36b4855d126814286c84b5f3a8220478b1772898f0d1a16605eee1a45',
   };
 
-  /// Verifies the integrity of a word list asset by calculating its SHA-256 
+  /// Verifies the integrity of a word list asset by calculating its SHA-256
   /// checksum and comparing it with the expected value.
   ///
   /// Returns true if the checksum matches, false otherwise.

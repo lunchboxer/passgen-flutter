@@ -4,7 +4,6 @@ import 'package:passgen/core/word_repository.dart';
 import 'package:passgen/models/password_params.dart';
 
 class PasswordGenerationBenchmark extends BenchmarkBase {
-
   PasswordGenerationBenchmark()
     : _params = PasswordParams(),
       super('Password Generation');

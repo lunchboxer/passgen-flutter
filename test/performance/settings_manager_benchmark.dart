@@ -3,7 +3,6 @@ import 'package:passgen/core/settings_manager.dart';
 import 'package:passgen/models/password_params.dart';
 
 class SettingsManagerBenchmark extends BenchmarkBase {
-
   SettingsManagerBenchmark() : super('Settings Manager');
   late SettingsManager _settingsManager;
   late PasswordParams _params;

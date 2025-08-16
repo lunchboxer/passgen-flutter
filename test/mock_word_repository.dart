@@ -24,7 +24,9 @@ class MockWordRepository implements IWordRepository {
   @override
   String getRandomWord({int? maxLength}) {
     if (maxLength != null) {
-      final filteredWords = _words.where((word) => word.length <= maxLength).toList();
+      final filteredWords = _words
+          .where((word) => word.length <= maxLength)
+          .toList();
       if (filteredWords.isNotEmpty) {
         return filteredWords.first;
       }

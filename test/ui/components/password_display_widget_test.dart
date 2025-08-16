@@ -26,28 +26,27 @@ void main() {
       expect(find.byIcon(Icons.copy), findsOneWidget);
     });
 
-    testWidgets(
-      'calls onCopy callback when copy button is pressed',
-      (tester) async {
-        var copyCalled = false;
-        await tester.pumpWidget(
-          MaterialApp(
-            home: PasswordDisplayWidget(
-              password: testPassword,
-              onCopy: () {
-                copyCalled = true;
-              },
-            ),
+    testWidgets('calls onCopy callback when copy button is pressed', (
+      tester,
+    ) async {
+      var copyCalled = false;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: PasswordDisplayWidget(
+            password: testPassword,
+            onCopy: () {
+              copyCalled = true;
+            },
           ),
-        );
+        ),
+      );
 
-        await tester.tap(find.byIcon(Icons.copy));
-        expect(copyCalled, isTrue);
+      await tester.tap(find.byIcon(Icons.copy));
+      expect(copyCalled, isTrue);
 
-        // Advance the timer to complete the test
-        await tester.pump(const Duration(seconds: 2));
-      },
-    );
+      // Advance the timer to complete the test
+      await tester.pump(const Duration(seconds: 2));
+    });
 
     testWidgets('shows placeholder when password is empty', (tester) async {
       await tester.pumpWidget(

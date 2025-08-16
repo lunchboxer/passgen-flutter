@@ -18,65 +18,55 @@ import 'package:provider/provider.dart';
 import 'mock_word_repository.dart';
 
 class TestApp extends StatelessWidget {
-
-  const TestApp({
-    required this.wordRepository, super.key,
-  });
+  const TestApp({required this.wordRepository, super.key});
   final IWordRepository wordRepository;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-      title: 'Passgen',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: TestHome(wordRepository: wordRepository),
-    );
+    title: 'Passgen',
+    theme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      useMaterial3: true,
+    ),
+    home: TestHome(wordRepository: wordRepository),
+  );
 }
 
 class TestHome extends StatelessWidget {
-
-  const TestHome({
-    required this.wordRepository, super.key,
-  });
+  const TestHome({required this.wordRepository, super.key});
   final IWordRepository wordRepository;
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-      create: (context) {
-        final model = PasswordGeneratorModel(wordRepository: wordRepository);
-        model.setupForTesting('test-password', PasswordParams());
-        return model;
-      },
-      child: const MainScreen(),
-    );
+    create: (context) {
+      final model = PasswordGeneratorModel(wordRepository: wordRepository);
+      model.setupForTesting('test-password', PasswordParams());
+      return model;
+    },
+    child: const MainScreen(),
+  );
 }
 
 void main() {
-  testWidgets(
-    'App starts and displays password',
-    (tester) async {
-      // Build our app and trigger a frame.
-      final mockRepository = MockWordRepository();
-      await tester.pumpWidget(TestApp(wordRepository: mockRepository));
+  testWidgets('App starts and displays password', (tester) async {
+    // Build our app and trigger a frame.
+    final mockRepository = MockWordRepository();
+    await tester.pumpWidget(TestApp(wordRepository: mockRepository));
 
-      // Wait for the app to initialize
-      await tester.pump(const Duration(milliseconds: 100));
+    // Wait for the app to initialize
+    await tester.pump(const Duration(milliseconds: 100));
 
-      // Verify that the app title is displayed
-      expect(find.text('Passgen'), findsOneWidget);
+    // Verify that the app title is displayed
+    expect(find.text('Passgen'), findsOneWidget);
 
-      // Verify that a password is displayed
-      // Find the first Text widget which should be the password display
-      final passwordFinder = find.byType(Text).first;
-      expect(passwordFinder, findsOneWidget);
+    // Verify that a password is displayed
+    // Find the first Text widget which should be the password display
+    final passwordFinder = find.byType(Text).first;
+    expect(passwordFinder, findsOneWidget);
 
-      // Get the text of the password
-      final passwordText =
-          (passwordFinder.evaluate().single.widget as Text).data;
-      expect(passwordText, isNotNull);
-      expect(passwordText, isNotEmpty);
-    },
-  );
+    // Get the text of the password
+    final passwordText = (passwordFinder.evaluate().single.widget as Text).data;
+    expect(passwordText, isNotNull);
+    expect(passwordText, isNotEmpty);
+  });
 }
