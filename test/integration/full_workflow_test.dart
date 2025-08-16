@@ -104,7 +104,8 @@ void main() {
 
         // Change settings
         // Toggle capitalize switch
-        await tester.tap(find.widgetWithText(SwitchListTile, 'Capitalize Words'));
+        await tester.tap(find.widgetWithText(SwitchListTile,
+          'Capitalize Words'));
         await tester.pump(const Duration(milliseconds: 100));
 
         // Save settings
@@ -112,14 +113,17 @@ void main() {
         await tester.pump(const Duration(milliseconds: 100));
 
         // Generate a new password
-        await tester.tap(find.widgetWithText(ElevatedButton, 'Regenerate'));
+        await tester.tap(find.widgetWithText(ElevatedButton, 
+          'Regenerate'));
         await tester.pump(const Duration(milliseconds: 100));
 
         // Copy the password
-        await tester.tap(find.widgetWithText(ElevatedButton, 'Copy to Clipboard'));
+        await tester.tap(find.widgetWithText(ElevatedButton,
+          'Copy to Clipboard'));
         await tester.pump(const Duration(milliseconds: 100));
 
-        // Check that the snackbar with "Password copied to clipboard" message is displayed
+        // Check that the snackbar with "Password copied to clipboard" message
+        // is displayed
         expect(find.text('Password copied to clipboard'), findsOneWidget);
       },
     );
