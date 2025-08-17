@@ -26,6 +26,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            /opt/hostedtoolcache/flutter
+          key: flutter-deps-${{ hashFiles('pubspec.lock') }}
+
       # Setup Java (required for Android builds)
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -66,6 +74,22 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            /opt/hostedtoolcache/flutter
+          key: flutter-deps-${{ hashFiles('pubspec.lock') }}
+      
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/gradle-wrapper.properties') }}
+
       # Setup Java (required for Android builds)
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -93,9 +117,12 @@ jobs:
           # Verify the keystore
           keytool -list -v -keystore android/app/upload-keystore.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} -alias ${{ secrets.KEY_ALIAS }} -keypass "${{ secrets.KEY_PASSWORD }}" || echo "Keystore verification failed"
           
-      # Build Android APK
       - name: Build APK
-        run: flutter build apk --release --dart-define=KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }} --dart-define=KEY_ALIAS=${{ secrets.KEY_ALIAS }} --dart-define=KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: flutter build apk --release
 
       # Build web version
       - name: Build Web
