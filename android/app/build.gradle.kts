@@ -7,7 +7,6 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Load keystore properties
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
@@ -63,25 +62,10 @@ android {
             isDebuggable = false
             isJniDebuggable = false
             isCrunchPngs = true
-            ndk {
-                abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a"))
-            }
         }
         
         getByName("debug") {
             isCrunchPngs = true
-            ndk {
-                abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86_64"))
-            }
-        }
-    }
-    
-    splits {
-        abi {
-            isEnable = true
-            reset()
-            include("armeabi-v7a", "arm64-v8a")
-            isUniversalApk = true
         }
     }
 }
