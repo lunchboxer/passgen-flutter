@@ -20,7 +20,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.passgen"
+    namespace = "io.github.lunchboxer.passgen"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -34,7 +34,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.passgen"
+        applicationId = "io.github.lunchboxer.passgen"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

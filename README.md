@@ -46,7 +46,6 @@ A secure, customizable password generator application built with Flutter.
 - [Password Generation Rules](docs/password_generation_rules.md)
 - [Security Considerations](docs/security_considerations.md)
 - [Theme Customization](docs/theme_customization.md)
-- [CI Pipeline](docs/ci_pipeline.md)
 - [Performance Measurement Baseline](docs/performance_measurement_baseline.md)
 - [Linting and Formatting](docs/linting_and_formatting.md)
 
