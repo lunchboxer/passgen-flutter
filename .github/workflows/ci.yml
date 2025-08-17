@@ -118,11 +118,8 @@ jobs:
           base64 -d keystore.base64 > android/app/upload-keystore.jks
           
       # Build Android APK
-      - name: Build Android APK
-        run: flutter build apk --release \
-            --dart-define=KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }} \
-            --dart-define=KEY_ALIAS=${{ secrets.KEY_ALIAS }} \
-            --dart-define=KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
+      - name: Build APK
+        run: flutter build apk --release --dart-define=KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }} --dart-define=KEY_ALIAS=${{ secrets.KEY_ALIAS }} --dart-define=KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
 
       # Build web version
       - name: Build Web
