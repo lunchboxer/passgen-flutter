@@ -52,58 +52,59 @@ jobs:
         id: version
         run: |
           TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          echo "APK_NAME=passgen-v${TAG_VERSION}.apk" >> $GITHUB_ENV
+          echo "WEB_ZIP=passgen-web-v${TAG_VERSION}.zip" >> $GITHUB_ENV
+          echo "RELEASE_TAG=v${TAG_VERSION}" >> $GITHUB_ENV
           echo "APK_NAME=passgen-v${TAG_VERSION}.apk" >> $GITHUB_OUTPUT
-          echo "WEB_ZIP=passgen-web-v${TAG_VERSION}.zip" >> $GITHUB_OUTPUT
-          echo "RELEASE_TAG=v${TAG_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Rename APK
         run: |
-          mv build/app/outputs/flutter-apk/app-release.apk ${{ steps.version.outputs.APK_NAME }}
+          mv build/app/outputs/flutter-apk/app-release.apk ${{ env.APK_NAME }}
+
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.version.outputs.RELEASE_TAG }}
-          release_name: Release ${{ steps.version.outputs.RELEASE_TAG }}
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: Release ${{ env.RELEASE_TAG }}
           draft: false
           prerelease: false
 
-      - name: Upload APK
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload APK to Release
+        uses: actions/upload-artifact@v4
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.version.outputs.APK_NAME }}
-          asset_name: ${{ steps.version.outputs.APK_NAME }}
-          asset_content_type: application/vnd.android.package-archive
+          name: ${{ env.APK_NAME }}
+          path: ${{ env.APK_NAME }}
 
       - name: Build Web
         run: flutter build web --release
 
-      - name: Package Web Build
+      - name: Upload Web Build as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+          retention-days: 1
+
+      - name: Package and Upload Web to Release
         run: |
           cd build/web
-          zip -r ../../${{ steps.version.outputs.WEB_ZIP }} ./*
+          zip -r ../../${{ env.WEB_ZIP }} ./*
           cd ../..
+        if: always()  # Run even if previous steps failed
 
-      - name: Upload Web Build
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Web Zip to Release
+        uses: actions/upload-artifact@v4
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.version.outputs.WEB_ZIP }}
-          asset_name: ${{ steps.version.outputs.WEB_ZIP }}
-          asset_content_type: application/zip
+          name: ${{ env.WEB_ZIP }}
+          path: ${{ env.WEB_ZIP }}
+        if: always()
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
-          keep_files: false
-          destination_dir: ./  # Matches base-href
-          force_orphan: true  # Clean old files
+          destination_dir: ./passgen
