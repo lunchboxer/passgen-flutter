@@ -81,7 +81,7 @@ jobs:
           asset_content_type: application/vnd.android.package-archive
 
       - name: Build Web
-        run: flutter build web --release --base-href /passgen-flutter/
+        run: flutter build web --release
 
       - name: Package Web Build
         run: |
@@ -105,5 +105,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
           keep_files: false
-          destination_dir: ./passgen-flutter  # Matches base-href
+          destination_dir: ./  # Matches base-href
           force_orphan: true  # Clean old files
