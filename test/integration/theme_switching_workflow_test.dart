@@ -22,7 +22,13 @@ void main() {
     testWidgets('Theme change propagation through theme manager', (
       tester,
     ) async {
-      // Verify initial theme is light
+      // Verify initial theme is system
+      expect(themeManager.getCurrentTheme(), AppTheme.system);
+
+      // Change theme to light
+      themeManager.setTheme(AppTheme.light);
+
+      // Verify theme changed to light
       expect(themeManager.getCurrentTheme(), AppTheme.light);
 
       // Change theme to dark
@@ -37,11 +43,11 @@ void main() {
       // Verify theme changed to black
       expect(themeManager.getCurrentTheme(), AppTheme.black);
 
-      // Change theme back to light
-      themeManager.setTheme(AppTheme.light);
+      // Change theme back to system
+      themeManager.setTheme(AppTheme.system);
 
-      // Verify theme changed to light
-      expect(themeManager.getCurrentTheme(), AppTheme.light);
+      // Verify theme changed to system
+      expect(themeManager.getCurrentTheme(), AppTheme.system);
     });
 
     testWidgets('Theme persistence across app sessions', (tester) async {
@@ -77,6 +83,11 @@ void main() {
     });
 
     testWidgets('Theme data generation for all themes', (tester) async {
+      // Test system theme data (will depend on platform brightness, but should return valid ThemeData)
+      themeManager.setTheme(AppTheme.system);
+      final systemThemeData = themeManager.getThemeData();
+      expect(systemThemeData, isA<ThemeData>());
+
       // Test light theme data
       themeManager.setTheme(AppTheme.light);
       final lightThemeData = themeManager.getThemeData();

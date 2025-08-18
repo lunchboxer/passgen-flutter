@@ -24,7 +24,7 @@ class SettingsManager {
   static const String _defaultSeparator = '-';
   static const bool _defaultAppendNumber = false;
   static const bool _defaultAppendSymbol = false;
-  static const String _defaultTheme = 'light';
+  static const String _defaultTheme = 'system';
 
   late SharedPreferences _prefs;
 

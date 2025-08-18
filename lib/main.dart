@@ -31,7 +31,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late SettingsManager _settingsManager;
   late ThemeProvider _themeProvider;
 
@@ -39,6 +39,24 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _initializeTheme();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    // Check if the current theme is set to system
+    final themeString = _settingsManager.getSetting('theme', 'system');
+    if (themeString == 'system') {
+      // Notify listeners to rebuild with the new system theme
+      // We need to access the notifyListeners method through the ThemeProvider instance
+      _themeProvider.setTheme(_themeProvider.currentTheme);
+    }
   }
 
   /// Initialize the theme provider

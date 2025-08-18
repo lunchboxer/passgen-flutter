@@ -11,6 +11,9 @@ void main() {
     late ThemeManager themeManager;
 
     setUp(() async {
+      // Initialize the binding for tests
+      TestWidgetsFlutterBinding.ensureInitialized();
+
       // Clear any existing preferences
       SharedPreferences.setMockInitialValues({});
       settingsManager = SettingsManager();
@@ -18,9 +21,9 @@ void main() {
       themeManager = ThemeManager(settingsManager);
     });
 
-    test('getCurrentTheme returns light theme by default', () {
+    test('getCurrentTheme returns system theme by default', () {
       final theme = themeManager.getCurrentTheme();
-      expect(theme, AppTheme.light);
+      expect(theme, AppTheme.system);
     });
 
     test('setTheme updates the current theme', () {
@@ -32,9 +35,17 @@ void main() {
 
       themeManager.setTheme(AppTheme.light);
       expect(themeManager.getCurrentTheme(), AppTheme.light);
+
+      themeManager.setTheme(AppTheme.system);
+      expect(themeManager.getCurrentTheme(), AppTheme.system);
     });
 
     test('getThemeData returns correct ThemeData for each theme', () {
+      // Test system theme (will depend on platform brightness, but should return valid ThemeData)
+      themeManager.setTheme(AppTheme.system);
+      final systemTheme = themeManager.getThemeData();
+      expect(systemTheme, isA<ThemeData>());
+
       // Test light theme
       themeManager.setTheme(AppTheme.light);
       final lightTheme = themeManager.getThemeData();

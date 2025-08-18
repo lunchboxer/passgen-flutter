@@ -135,6 +135,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Column(
                 children: [
                   ListTile(
+                    title: const Text('System'),
+                    leading: Radio<AppTheme>(
+                      value: AppTheme.system,
+                      groupValue: _selectedTheme,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedTheme = value ?? _selectedTheme;
+                        });
+                      },
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _selectedTheme = AppTheme.system;
+                      });
+                    },
+                  ),
+                  ListTile(
                     title: const Text('Light'),
                     leading: Radio<AppTheme>(
                       value: AppTheme.light,

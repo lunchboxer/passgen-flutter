@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../models/app_theme.dart';
 import 'settings_manager.dart';
@@ -11,15 +12,17 @@ class ThemeManager implements IThemeManager {
 
   @override
   AppTheme getCurrentTheme() {
-    final themeString = _settingsManager.getSetting('theme', 'light');
+    final themeString = _settingsManager.getSetting('theme', 'system');
     switch (themeString) {
       case 'dark':
         return AppTheme.dark;
       case 'black':
         return AppTheme.black;
-      default:
-        // Handle 'light' and unexpected theme values by returning light theme
+      case 'light':
         return AppTheme.light;
+      default:
+        // Handle 'system' and unexpected theme values
+        return AppTheme.system;
     }
   }
 
@@ -31,7 +34,22 @@ class ThemeManager implements IThemeManager {
 
   @override
   ThemeData getThemeData() {
-    switch (getCurrentTheme()) {
+    final currentTheme = getCurrentTheme();
+
+    // For system theme, we need to check the platform brightness
+    if (currentTheme == AppTheme.system) {
+      final brightness =
+          SchedulerBinding.instance.platformDispatcher.platformBrightness;
+      if (brightness == Brightness.dark) {
+        return ThemeData.dark().copyWith(
+          // Custom dark theme properties can be added here
+        );
+      } else {
+        return ThemeData.light();
+      }
+    }
+
+    switch (currentTheme) {
       case AppTheme.dark:
         return ThemeData.dark().copyWith(
           // Custom dark theme properties can be added here
@@ -40,7 +58,7 @@ class ThemeManager implements IThemeManager {
         return ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
           cardColor: Colors.grey[900],
-          dialogTheme: DialogThemeData(backgroundColor: Colors.grey[900]),
+          dialogTheme: const DialogThemeData(backgroundColor: Colors.grey),
         );
       default:
         // Handle AppTheme.light and any other cases

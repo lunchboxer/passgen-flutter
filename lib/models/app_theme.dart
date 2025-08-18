@@ -8,4 +8,7 @@ enum AppTheme {
 
   /// Black theme with pure black background
   black,
+
+  /// System theme that follows device preferences
+  system,
 }
