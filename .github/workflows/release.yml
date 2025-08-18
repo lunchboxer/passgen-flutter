@@ -2,9 +2,9 @@ name: Release Build
 
 on:
   push:
-    # tags:
-    #   - 'v*'  # Pattern for version tags (v1.0.0, v2.3.4, etc.)
-    branches: [ main ]
+    tags:
+      - 'v*'  # Pattern for version tags (v1.0.0, v2.3.4, etc.)
+    # branches: [ main ]
   workflow_dispatch: {}
 
 jobs:
