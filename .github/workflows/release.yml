@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Cache Flutter dependencies
         uses: actions/cache@v3
         with:
@@ -19,6 +20,7 @@ jobs:
             ~/.pub-cache
             /opt/hostedtoolcache/flutter
           key: flutter-deps-${{ hashFiles('pubspec.lock') }}
+          
       - name: Cache Gradle
         uses: actions/cache@v3
         with:
@@ -26,15 +28,19 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: gradle-${{ runner.os }}-${{ hashFiles('**/gradle-wrapper.properties', '**/build.gradle.kts') }}
+          
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.35.0'
           channel: 'stable'
+          
       - run: flutter pub get
+      
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE }}" > keystore.base64
@@ -55,11 +61,18 @@ jobs:
           echo "APK_NAME=passgen-v${TAG_VERSION}.apk" >> $GITHUB_ENV
           echo "WEB_ZIP=passgen-web-v${TAG_VERSION}.zip" >> $GITHUB_ENV
           echo "RELEASE_TAG=v${TAG_VERSION}" >> $GITHUB_ENV
-          echo "APK_NAME=passgen-v${TAG_VERSION}.apk" >> $GITHUB_OUTPUT
 
       - name: Rename APK
         run: |
           mv build/app/outputs/flutter-apk/app-release.apk ${{ env.APK_NAME }}
+
+      # First upload as workflow artifact (for temporary storage)
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APK_NAME }}
+          path: ${{ env.APK_NAME }}
+          retention-days: 1
 
       - name: Create Release
         id: create_release
@@ -68,43 +81,30 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.RELEASE_TAG }}
-          name: Release ${{ env.RELEASE_TAG }}
+          release_name: Release ${{ env.RELEASE_TAG }}
           draft: false
           prerelease: false
-
-      - name: Upload APK to Release
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.APK_NAME }}
-          path: ${{ env.APK_NAME }}
+          files: |
+            ${{ env.APK_NAME }}
 
       - name: Build Web
-        run: flutter build web --release
+        run: flutter build web --release --base-href /passgen-flutter/
 
-      - name: Upload Web Build as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: web-build
-          path: build/web
-          retention-days: 1
-
-      - name: Package and Upload Web to Release
+      - name: Package Web Build
         run: |
           cd build/web
           zip -r ../../${{ env.WEB_ZIP }} ./*
           cd ../..
-        if: always()  # Run even if previous steps failed
 
-      - name: Upload Web Zip to Release
-        uses: actions/upload-artifact@v4
+      # Upload web build to release
+      - name: Upload Web to Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: ${{ env.WEB_ZIP }}
-          path: ${{ env.WEB_ZIP }}
-        if: always()
+          files: ${{ env.WEB_ZIP }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
-          destination_dir: ./passgen
