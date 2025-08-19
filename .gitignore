@@ -27,11 +27,11 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
-.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
 /build/
+/coverage/
 
 # Symbolication related
 app.*.symbols
@@ -43,3 +43,46 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Flutter specific files
+/android/key.properties
+/android/**/keystore.properties
+/lib/generated_plugin_registrant.dart
+/flutter_*.png
+
+# IDE specific files
+/.idea/
+*.launch
+
+# Gradle
+.gradle/
+**/build/
+!build/generated/
+
+# Fastlane
+/fastlane/report.xml
+
+# VS Code
+/.vscode/launch.json
+/.vscode/tasks.json
+/.vscode/extensions.json
+
+# Xcode
+**/*.mode1v3
+**/*.mode2v3
+**/*.moved-aside
+**/*.pbxuser
+**/*.perspectivev3
+**/*~.nib
+**/*.xcworkspace
+**/*.xccheckout
+**/*.xcscheme
+**/*.xcsettings
+
+# Android
+**/*.jks
+**/*.keystore
+
+# Backup files
+*~
+notes.md
