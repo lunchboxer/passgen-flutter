@@ -29,17 +29,14 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: gradle-${{ runner.os }}-${{ hashFiles('**/gradle-wrapper.properties', '**/build.gradle.kts') }}
-          
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-          
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.35.0'
           channel: 'stable'
-          
       - run: flutter pub get
       
       - name: Decode Keystore
@@ -48,31 +45,37 @@ jobs:
           base64 -di keystore.base64 > android/app/upload-keystore.jks
           chmod 644 android/app/upload-keystore.jks
 
-      - name: Build APK
+      - name: Build Split APKs
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: flutter build apk --release
+        run: |
+          flutter build apk --release --split-per-abi
+          bash android/rename_apks.sh
+
+      - name: Verify renamed APKs
+        run: |
+          ls -la build/app/outputs/flutter-apk/
+          echo "Renamed files:"
+          ls -la build/app/outputs/flutter-apk/passgen-* || echo "No renamed files found"
 
       - name: Get Version
         id: version
         run: |
           TAG_VERSION=${GITHUB_REF#refs/tags/v}
-          echo "APK_NAME=passgen-v${TAG_VERSION}.apk" >> $GITHUB_ENV
           echo "WEB_ZIP=passgen-web-v${TAG_VERSION}.zip" >> $GITHUB_ENV
           echo "RELEASE_TAG=v${TAG_VERSION}" >> $GITHUB_ENV
-
-      - name: Rename APK
-        run: |
-          mv build/app/outputs/flutter-apk/app-release.apk ${{ env.APK_NAME }}
 
       # First upload as workflow artifact (for temporary storage)
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.APK_NAME }}
-          path: ${{ env.APK_NAME }}
+          name: passgen-apks
+          path: |
+            build/app/outputs/flutter-apk/passgen-armeabi-v7a-v*.apk
+            build/app/outputs/flutter-apk/passgen-arm64-v8a-v*.apk
+            build/app/outputs/flutter-apk/passgen-x86_64-v*.apk
           retention-days: 1
 
       - name: Create Release
@@ -82,11 +85,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.RELEASE_TAG }}
-          name: Release ${{ env.RELEASE_TAG }}
+          # name: Release ${{ env.RELEASE_TAG }}
           draft: false
           prerelease: false
           files: |
-            ${{ env.APK_NAME }}
+            build/app/outputs/flutter-apk/passgen-armeabi-v7a-v*.apk
+            build/app/outputs/flutter-apk/passgen-arm64-v8a-v*.apk
+            build/app/outputs/flutter-apk/passgen-x86_64-v*.apk
 
       - name: Build Web
         run: flutter build web --release --base-href /passgen_gui/
