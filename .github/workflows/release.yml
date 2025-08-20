@@ -89,7 +89,7 @@ jobs:
             ${{ env.APK_NAME }}
 
       - name: Build Web
-        run: flutter build web --release --base-href /passgen-flutter/
+        run: flutter build web --release --base-href /passgen_gui/
 
       - name: Package Web Build
         run: |
